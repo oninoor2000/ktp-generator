@@ -233,9 +233,11 @@ export function GeneratorSettings({ cardType, isGenerating }: Props) {
                           disabled={isGenerating}
                         />
                       </FormControl>
-                      <FormDescription>
-                        Usia maksimum {cardType === "KTP" ? "100" : "16"} tahun
-                      </FormDescription>
+                      {cardType === "KTA" && (
+                        <FormDescription>
+                          Usia maksimum 16 tahun
+                        </FormDescription>
+                      )}
                       <FormMessage />
                     </FormItem>
                   )}
