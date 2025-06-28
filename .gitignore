@@ -233,3 +233,6 @@ storybook-static
 # Temporary folders
 tmp/
 temp/
+
+# Cursor
+.cursor/rules
