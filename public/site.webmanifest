@@ -1,0 +1,41 @@
+{
+  "name": "Generator Data KTP & KTA Indonesia",
+  "short_name": "KTP Generator",
+  "description": "Generator data dummy KTP dan KTA Indonesia gratis untuk keperluan testing dan development",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#3b82f6",
+  "lang": "id",
+  "orientation": "portrait-primary",
+  "scope": "/",
+  "icons": [
+    {
+      "src": "/favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml"
+    },
+    {
+      "src": "/vite.svg",
+      "sizes": "any",
+      "type": "image/svg+xml"
+    }
+  ],
+  "categories": ["utilities", "developer", "tools"],
+  "shortcuts": [
+    {
+      "name": "Generate KTP",
+      "short_name": "KTP",
+      "description": "Generate data dummy KTP Indonesia",
+      "url": "/",
+      "icons": [{ "src": "/favicon-96x96.png", "sizes": "96x96" }]
+    },
+    {
+      "name": "Generate KTA",
+      "short_name": "KTA",
+      "description": "Generate data dummy KTA Indonesia",
+      "url": "/kta",
+      "icons": [{ "src": "/favicon-96x96.png", "sizes": "96x96" }]
+    }
+  ]
+}

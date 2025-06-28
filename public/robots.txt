@@ -1,0 +1,13 @@
+User-agent: *
+Allow: /
+Allow: /kta
+
+# Sitemaps
+Sitemap: https://ktp-generator.vercel.app/sitemap.xml
+
+# Crawl-delay (optional)
+Crawl-delay: 1
+
+# Disallow sensitive paths (if any)
+# Disallow: /admin
+# Disallow: /api/private 
