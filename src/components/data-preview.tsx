@@ -256,7 +256,7 @@ function DataPreview({ data, cardType, positionConfig }: Props) {
             className="flex transform cursor-pointer items-center gap-2 rounded-lg bg-gradient-to-r from-blue-500 to-indigo-500 px-4 py-2 font-medium text-white transition-all duration-200 hover:scale-105 hover:from-blue-600 hover:to-indigo-600 disabled:scale-100 disabled:from-gray-400 disabled:to-gray-500"
           >
             <FileText className="h-4 w-4" />
-            PDF Template
+            PDF
           </Button>
         </div>
       </CardHeader>
