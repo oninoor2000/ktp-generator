@@ -74,15 +74,15 @@ export function GeneratorSettings({ cardType, isGenerating }: Props) {
       return;
     }
 
-    if (cardType === "KTA" && data.maxAge < 16) {
+    if (cardType === "KTA" && data.maxAge > 16) {
       form.setError("maxAge", {
-        message: "Usia maksimum untuk KTA dimulai dari 16 tahun",
+        message: "Usia maksimum untuk KTA berakhir pada 16 tahun",
       });
       return;
     }
 
     if (cardType === "KTA" && data.minAge > 16) {
-      form.setError("maxAge", {
+      form.setError("minAge", {
         message: "Usia minimum untuk KTA berakhir pada 16 tahun",
       });
       return;
@@ -204,7 +204,7 @@ export function GeneratorSettings({ cardType, isGenerating }: Props) {
                         />
                       </FormControl>
                       <FormDescription>
-                        Usia minimum {cardType === "KTP" ? "17" : "0"} tahun
+                        Usia minimum {cardType === "KTP" ? "17" : "1"} tahun
                       </FormDescription>
                       <FormMessage />
                     </FormItem>
@@ -223,7 +223,7 @@ export function GeneratorSettings({ cardType, isGenerating }: Props) {
                         <Input
                           type="number"
                           min={cardType === "KTP" ? 17 : 1}
-                          max={cardType === "KTP" ? 16 : undefined}
+                          max={cardType === "KTP" ? undefined : 16}
                           {...field}
                           value={field.value || ""}
                           onChange={(e) => {
@@ -233,11 +233,9 @@ export function GeneratorSettings({ cardType, isGenerating }: Props) {
                           disabled={isGenerating}
                         />
                       </FormControl>
-                      {cardType === "KTA" && (
-                        <FormDescription>
-                          Usia maksimum 16 tahun
-                        </FormDescription>
-                      )}
+                      <FormDescription>
+                        Usia maksimum {cardType === "KTP" ? "100" : "16"} tahun
+                      </FormDescription>
                       <FormMessage />
                     </FormItem>
                   )}
