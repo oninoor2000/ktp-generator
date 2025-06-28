@@ -40,6 +40,7 @@ import {
   type GeneratorFormSchemaType,
 } from "@/lib/schema";
 import {
+  Baby,
   CreditCard,
   Loader2,
   Settings,
@@ -73,6 +74,20 @@ export function GeneratorSettings({ cardType, isGenerating }: Props) {
       return;
     }
 
+    if (cardType === "KTA" && data.maxAge < 16) {
+      form.setError("maxAge", {
+        message: "Usia maksimum untuk KTA dimulai dari 16 tahun",
+      });
+      return;
+    }
+
+    if (cardType === "KTA" && data.minAge > 16) {
+      form.setError("maxAge", {
+        message: "Usia minimum untuk KTA berakhir pada 16 tahun",
+      });
+      return;
+    }
+
     dispatch({
       type: "CHANGE_SETTINGS",
       payload: data,
@@ -101,7 +116,7 @@ export function GeneratorSettings({ cardType, isGenerating }: Props) {
         province: province.map((p) => p.toUpperCase()),
       },
     });
-  }, [dataCount, minAge, maxAge, gender, province, dispatch]);
+  }, [dataCount, minAge, maxAge, gender, province, dispatch, cardType, form]);
 
   return (
     <Card className="p-5">
@@ -117,9 +132,7 @@ export function GeneratorSettings({ cardType, isGenerating }: Props) {
             {cardType === "KTP" && (
               <CreditCard className="h-6 w-6 text-white" />
             )}
-            {cardType === "KTA" && (
-              <CreditCard className="h-6 w-6 text-white" />
-            )}
+            {cardType === "KTA" && <Baby className="h-6 w-6 text-white" />}
           </div>
           <div>
             <h1 className="text-xl font-bold">
@@ -179,7 +192,7 @@ export function GeneratorSettings({ cardType, isGenerating }: Props) {
                       <FormControl>
                         <Input
                           type="number"
-                          min={cardType === "KTP" ? 17 : 0}
+                          min={cardType === "KTP" ? 17 : 1}
                           max={cardType === "KTP" ? 100 : 16}
                           {...field}
                           value={field.value || ""}
@@ -209,8 +222,8 @@ export function GeneratorSettings({ cardType, isGenerating }: Props) {
                       <FormControl>
                         <Input
                           type="number"
-                          min={cardType === "KTP" ? 17 : 0}
-                          max={cardType === "KTP" ? undefined : 16}
+                          min={cardType === "KTP" ? 17 : 1}
+                          max={cardType === "KTP" ? 16 : undefined}
                           {...field}
                           value={field.value || ""}
                           onChange={(e) => {

@@ -3,6 +3,7 @@ import {
   KTP_GENERATOR_SETTINGS_KEY,
   KTP_POSITION_CONFIG_KEY,
 } from "@/lib/constant";
+import { DEFAULT_KTP_POSITION_CONFIG } from "@/lib/constant/ktp-position-constant";
 import type { GeneratorSettingsType } from "@/lib/types";
 import type { KTPPositionConfig } from "@/lib/types/ktp-types";
 
@@ -22,6 +23,7 @@ export function loadKtpGeneratorSettings(): GeneratorSettingsType {
       const parsed = JSON.parse(KTP_GENERATOR_SETTINGS);
       if (parsed && typeof parsed === "object") {
         data = {
+          ...data,
           dataCount: Number(parsed.dataCount) || 10,
           minAge: Number(parsed.minAge) || 17,
           maxAge: Number(parsed.maxAge) || 65,
@@ -36,8 +38,39 @@ export function loadKtpGeneratorSettings(): GeneratorSettingsType {
     if (KTP_POSITION_CONFIG) {
       const parsed = JSON.parse(KTP_POSITION_CONFIG);
       if (parsed && typeof parsed === "object") {
-        data.KTPPositionConfig = parsed;
+        // Check each property individually and assign default if missing
+        const updatedConfig: KTPPositionConfig = {
+          province: parsed.province || DEFAULT_KTP_POSITION_CONFIG.province,
+          city: parsed.city || DEFAULT_KTP_POSITION_CONFIG.city,
+          nik: parsed.nik || DEFAULT_KTP_POSITION_CONFIG.nik,
+          name: parsed.name || DEFAULT_KTP_POSITION_CONFIG.name,
+          birthDatePlace:
+            parsed.birthDatePlace || DEFAULT_KTP_POSITION_CONFIG.birthDatePlace,
+          gender: parsed.gender || DEFAULT_KTP_POSITION_CONFIG.gender,
+          address: parsed.address || DEFAULT_KTP_POSITION_CONFIG.address,
+          rtRw: parsed.rtRw || DEFAULT_KTP_POSITION_CONFIG.rtRw,
+          village: parsed.village || DEFAULT_KTP_POSITION_CONFIG.village,
+          district: parsed.district || DEFAULT_KTP_POSITION_CONFIG.district,
+          religion: parsed.religion || DEFAULT_KTP_POSITION_CONFIG.religion,
+          maritalStatus:
+            parsed.maritalStatus || DEFAULT_KTP_POSITION_CONFIG.maritalStatus,
+          occupation:
+            parsed.occupation || DEFAULT_KTP_POSITION_CONFIG.occupation,
+          bloodType: parsed.bloodType || DEFAULT_KTP_POSITION_CONFIG.bloodType,
+          nationality:
+            parsed.nationality || DEFAULT_KTP_POSITION_CONFIG.nationality,
+          validUntil:
+            parsed.validUntil || DEFAULT_KTP_POSITION_CONFIG.validUntil,
+        };
+
+        data.KTPPositionConfig = updatedConfig;
+        // Save the updated config back to localStorage
+        saveKtpPositionConfig(updatedConfig);
       }
+    } else {
+      // If no KTP position config exists, save the default config
+      data.KTPPositionConfig = DEFAULT_KTP_POSITION_CONFIG;
+      saveKtpPositionConfig(DEFAULT_KTP_POSITION_CONFIG);
     }
 
     return data;

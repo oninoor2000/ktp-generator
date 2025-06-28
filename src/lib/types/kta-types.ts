@@ -1,3 +1,5 @@
+import type { FieldConfig } from ".";
+
 /**
  * KTA Generated Data
  */
@@ -17,7 +19,6 @@ export type KTAGeneratedData = {
   city: string;
   province: string;
   religion: string;
-  occupation: string;
   bloodType: string;
   nationality?: string;
   validityPeriod: string;
@@ -26,4 +27,29 @@ export type KTAGeneratedData = {
   familyCertificateNumber: string;
   headFamilyName: string;
   birthCertificateNumber: string;
+};
+
+/**
+ * KTA Position Configuration
+ */
+export type KTAPositionConfig = {
+  nik: FieldConfig;
+  name: FieldConfig;
+  birthDatePlace: FieldConfig;
+  gender: FieldConfig;
+  address: FieldConfig;
+  rtRw: FieldConfig;
+  village: FieldConfig;
+  district: FieldConfig;
+  city: FieldConfig;
+  province: FieldConfig;
+  religion: FieldConfig;
+  bloodType: FieldConfig;
+  nationality?: FieldConfig;
+  validityPeriod: FieldConfig;
+
+  // Additional data for KTA that differ from KTP
+  familyCertificateNumber: FieldConfig;
+  headFamilyName: FieldConfig;
+  birthCertificateNumber: FieldConfig;
 };

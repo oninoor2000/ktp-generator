@@ -4,12 +4,12 @@
 [![GitHub license](https://img.shields.io/github/license/oninoor2000/ktp-generator)](https://github.com/oninoor2000/ktp-generator/blob/main/LICENSE)
 [![GitHub stars](https://img.shields.io/github/stars/oninoor2000/ktp-generator)](https://github.com/oninoor2000/ktp-generator/stargazers)
 
-Aplikasi web gratis untuk generate data dummy KTP (Kartu Tanda Penduduk) dan KTA (Kartu Tanda Anggota) Indonesia. Cocok untuk keperluan testing, development, dan mockup aplikasi.
+Aplikasi web gratis untuk generate data dummy KTP (Kartu Tanda Penduduk) dan KTA (Kartu Tanda Pengenal Anak) Indonesia. Cocok untuk keperluan testing, development, dan mockup aplikasi.
 
 ## ✨ Fitur
 
 - 🎯 **Generate Data KTP Indonesia** - Lengkap dengan NIK, nama, alamat, dan informasi sesuai format resmi
-- 👶 **Generate Data KTA Indonesia** - Data kartu tanda anggota dengan format yang sesuai
+- 👶 **Generate Data KTA Indonesia** - Data kartu tanda pengenal untuk anak-anak dengan format yang sesuai
 - 🌍 **Semua Provinsi Indonesia** - Pilih data dari seluruh provinsi di Indonesia
 - 📊 **Export ke Excel** - Download hasil generate dalam format .xlsx
 - 🎛️ **Pengaturan Fleksibel** - Atur jumlah data, usia, gender, dan provinsi

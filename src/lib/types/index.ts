@@ -1,4 +1,5 @@
 import type { KTPGeneratedData, KTPPositionConfig } from "./ktp-types";
+import type { KTAGeneratedData, KTAPositionConfig } from "./kta-types";
 
 /**
  * CardType is the type of card that the user is generating.
@@ -51,8 +52,16 @@ export type GeneratorSettingsActionType =
       payload: KTPPositionConfig;
     }
   | {
+      type: "CHANGE_KTA_POSITION_SETTINGS";
+      payload: KTAPositionConfig;
+    }
+  | {
       type: "SET_KTP_DATA";
       payload: Array<KTPGeneratedData>;
+    }
+  | {
+      type: "SET_KTA_DATA";
+      payload: Array<KTAGeneratedData>;
     };
 
 /**
@@ -66,4 +75,6 @@ export type GeneratorSettingsType = {
   province: Array<string>;
   KTPData?: Array<KTPGeneratedData>;
   KTPPositionConfig?: KTPPositionConfig;
+  KTAData?: Array<KTAGeneratedData>;
+  KTAPositionConfig?: KTAPositionConfig;
 };

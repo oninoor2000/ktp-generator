@@ -13,6 +13,7 @@ import {
   village,
 } from "@/lib/constant/data-generator-constant";
 import type { GeneratorSettingsType } from "@/lib/types";
+import type { KTAGeneratedData } from "@/lib/types/kta-types";
 import type { KTPGeneratedData } from "@/lib/types/ktp-types";
 
 /**
@@ -225,6 +226,99 @@ export function generateKtpData(
     };
 
     data.push(ktpData);
+  }
+
+  return data;
+}
+
+/**
+ * Generate KTA data
+ * @param settings Generator settings
+ * @returns KTA data
+ */
+export function generateKtaData(
+  settings: GeneratorSettingsType,
+): KTAGeneratedData[] {
+  const data: KTAGeneratedData[] = [];
+
+  for (let i = 0; i < settings.dataCount; i++) {
+    const gender =
+      settings.gender === "BOTH"
+        ? getRandomItem(["MALE", "FEMALE"])
+        : settings.gender;
+
+    const birthDate = generateBirthDate(settings.minAge, settings.maxAge);
+
+    const namaDepan =
+      gender === "MALE" ? getRandomItem(maleName) : getRandomItem(femaleName);
+
+    const namaBelakang = getRandomItem(familyName);
+    const nama = `${namaDepan} ${namaBelakang}`;
+
+    // Generate nama kepala keluarga (usually father or mother)
+    const namaKepalaKeluarga =
+      Math.random() > 0.7
+        ? `${getRandomItem(femaleName)} ${getRandomItem(familyName)}`
+        : `${getRandomItem(maleName)} ${getRandomItem(familyName)}`;
+
+    // Select random province from the selected ones
+    const selectedProvince = getRandomItem(settings.province);
+
+    // Generate individual fields first for consistency
+    const tempatLahirValue = getRandomItem(birthPlace);
+    const birthDateValue = formatDate(birthDate);
+    const rtValue = generateRT();
+    const rwValue = generateRW();
+
+    // Generate KK number (16 digits)
+    const generateKKNumber = (): string => {
+      return Array.from({ length: 16 }, () =>
+        Math.floor(Math.random() * 10),
+      ).join("");
+    };
+
+    // Generate birth certificate number (format: XXXX/XX/XX/XXXXXX)
+    const generateAktaNumber = (): string => {
+      const year = birthDate.getFullYear();
+      const month = padZero(birthDate.getMonth() + 1, 2);
+      const day = padZero(birthDate.getDate(), 2);
+      const sequence = padZero(Math.floor(Math.random() * 999999) + 1, 6);
+      return `${year}/${month}/${day}/${sequence}`;
+    };
+
+    // Calculate berlaku hingga (when child turns 17)
+    const berlakuHingga = new Date(birthDate);
+    berlakuHingga.setFullYear(berlakuHingga.getFullYear() + 17);
+
+    const ktaData: KTAGeneratedData = {
+      nik: generateNIK(
+        birthDate,
+        gender as "MALE" | "FEMALE" | "BOTH",
+        selectedProvince,
+      ),
+      name: toCapitalize(nama),
+      birthPlace: toCapitalize(tempatLahirValue),
+      birthDate: birthDateValue,
+      birthDatePlace: `${toCapitalize(tempatLahirValue)}, ${birthDateValue}`, // Combined field
+      gender: toCapitalize(gender === "MALE" ? "Laki-laki" : "Perempuan"),
+      address: toCapitalize(generateAddress()),
+      rt: rtValue,
+      rw: rwValue,
+      rtRw: `${rtValue}/${rwValue}`, // Combined field
+      village: toCapitalize(getRandomItem(village)),
+      district: toCapitalize(getRandomItem(subDistrict)),
+      city: toCapitalize(generateAddressCity(selectedProvince)),
+      province: selectedProvince,
+      religion: toCapitalize(getRandomItem(religion)),
+      bloodType: getRandomItem(bloodType),
+      familyCertificateNumber: generateKKNumber(),
+      headFamilyName: toCapitalize(namaKepalaKeluarga),
+      birthCertificateNumber: generateAktaNumber(),
+      validityPeriod: formatDate(berlakuHingga),
+      nationality: "WNI",
+    };
+
+    data.push(ktaData);
   }
 
   return data;

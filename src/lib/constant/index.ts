@@ -1,5 +1,6 @@
 import type { GeneratorSettingsType } from "@/lib/types";
 import { DEFAULT_KTP_POSITION_CONFIG } from "./ktp-position-constant";
+import { DEFAULT_KTA_POSITION_CONFIG } from "./kta-postition-constant";
 
 /**
  * localStorage keys
@@ -25,4 +26,14 @@ export const KTP_GENERATOR_SETTINGS_INITIAL_STATE: GeneratorSettingsType = {
   province: ["DKI JAKARTA"],
   KTPData: [],
   KTPPositionConfig: DEFAULT_KTP_POSITION_CONFIG,
+};
+
+export const KTA_GENERATOR_SETTINGS_INITIAL_STATE: GeneratorSettingsType = {
+  dataCount: 10,
+  minAge: 18,
+  maxAge: 60,
+  gender: "BOTH",
+  province: ["DKI JAKARTA"],
+  KTAData: [],
+  KTAPositionConfig: DEFAULT_KTA_POSITION_CONFIG,
 };

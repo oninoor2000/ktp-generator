@@ -5,7 +5,10 @@ import type {
   KTPPositionConfig,
 } from "@/lib/types/ktp-types";
 import type { CardType } from "@/lib/types";
-import type { KTAGeneratedData } from "@/lib/types/kta-types";
+import type {
+  KTAGeneratedData,
+  KTAPositionConfig,
+} from "@/lib/types/kta-types";
 
 import {
   Baby,
@@ -28,13 +31,14 @@ import { Button } from "./ui/button";
 import { exportToExcel } from "@/service/excel-exporter";
 import { ScrollArea, ScrollBar } from "./ui/scroll-area";
 import { Card, CardContent, CardFooter, CardHeader } from "./ui/card";
-import { exportKTPToPDF } from "@/service/pdf-exporter";
+import { exportKTAToPDF, exportKTPToPDF } from "@/service/pdf-exporter";
 import { DEFAULT_KTP_POSITION_CONFIG } from "@/lib/constant/ktp-position-constant";
+import { DEFAULT_KTA_POSITION_CONFIG } from "@/lib/constant/kta-postition-constant";
 
 interface Props {
   data: KTPGeneratedData[] | KTAGeneratedData[];
   cardType: CardType;
-  positionConfig?: KTPPositionConfig;
+  positionConfig?: KTPPositionConfig | KTAPositionConfig;
 }
 
 function DataPreview({ data, cardType, positionConfig }: Props) {
@@ -63,27 +67,52 @@ function DataPreview({ data, cardType, positionConfig }: Props) {
       maritalStatus: "Status Perkawinan",
       occupation: "Pekerjaan",
       bloodType: "Golongan Darah",
+      nationality: "Kewarganegaraan",
+      validityPeriod: "Berlaku Hingga",
+      // KTA specific fields
+      familyCertificateNumber: "No. KK",
+      headFamilyName: "Nama Kepala Keluarga",
+      birthCertificateNumber: "No. Akta Kelahiran",
     };
     return labelMap[key] || key;
   };
 
-  // Display specific fields for KTP preview
-  const previewFields = [
-    "nik",
-    "name",
-    "birthDatePlace",
-    "gender",
-    "address",
-    "rtRw",
-    "village",
-    "district",
-    "city",
-    "province",
-    "religion",
-    "maritalStatus",
-    "occupation",
-    "bloodType",
-  ];
+  // Display specific fields based on card type
+  const previewFields =
+    cardType === "KTP"
+      ? [
+          "nik",
+          "name",
+          "birthDatePlace",
+          "gender",
+          "address",
+          "rtRw",
+          "village",
+          "district",
+          "city",
+          "province",
+          "religion",
+          "maritalStatus",
+          "occupation",
+          "bloodType",
+        ]
+      : [
+          "nik",
+          "name",
+          "birthDatePlace",
+          "gender",
+          "familyCertificateNumber",
+          "headFamilyName",
+          "birthCertificateNumber",
+          "religion",
+          "nationality",
+          "address",
+          "rtRw",
+          "village",
+          "district",
+          "validityPeriod",
+          "bloodType",
+        ];
 
   const handleExcelExport = useCallback(async () => {
     setIsExporting(true);
@@ -110,7 +139,8 @@ function DataPreview({ data, cardType, positionConfig }: Props) {
         toast.promise(
           exportKTPToPDF(
             data as KTPGeneratedData[],
-            positionConfig ?? DEFAULT_KTP_POSITION_CONFIG,
+            (positionConfig as KTPPositionConfig) ??
+              DEFAULT_KTP_POSITION_CONFIG,
           ),
           {
             loading: "Mengekspor data...",
@@ -127,7 +157,30 @@ function DataPreview({ data, cardType, positionConfig }: Props) {
         setIsExporting(false);
       }
     } else {
-      // TODO: Implement KTA PDF export
+      if (data.length === 0) return;
+      setIsExporting(true);
+
+      try {
+        toast.promise(
+          exportKTAToPDF(
+            data as KTAGeneratedData[],
+            (positionConfig as KTAPositionConfig) ??
+              DEFAULT_KTA_POSITION_CONFIG,
+          ),
+          {
+            loading: "Mengekspor data...",
+            success: "Data berhasil diekspor",
+            error: "Gagal mengekspor data",
+          },
+        );
+      } catch (error) {
+        console.error("Error exporting template PDF:", error);
+        toast.error(
+          "Terjadi kesalahan saat export PDF. Pastikan template tersedia dan coba lagi.",
+        );
+      } finally {
+        setIsExporting(false);
+      }
     }
   }, [data, cardType, positionConfig]);
 
@@ -136,7 +189,14 @@ function DataPreview({ data, cardType, positionConfig }: Props) {
       <Card className="flex h-full items-center justify-center">
         <CardContent>
           <div className="text-center">
-            <div className="mb-4 inline-block rounded-full bg-gradient-to-r from-blue-100 to-indigo-100 p-4">
+            <div
+              className={cn(
+                "mb-4 inline-block rounded-full bg-gradient-to-r p-4",
+                cardType === "KTP"
+                  ? "from-blue-100 to-indigo-100"
+                  : "from-pink-100 to-red-100",
+              )}
+            >
               {cardType === "KTP" ? (
                 <CreditCard className="h-12 w-12 text-cyan-500" />
               ) : (
@@ -254,7 +314,14 @@ function DataPreview({ data, cardType, positionConfig }: Props) {
               >
                 Prev
               </Button>
-              <span className="rounded bg-gradient-to-r from-cyan-500 to-blue-600 px-3 py-1 text-white">
+              <span
+                className={cn(
+                  "rounded bg-gradient-to-r px-3 py-1 text-white",
+                  cardType === "KTP"
+                    ? "from-cyan-500 to-blue-600"
+                    : "from-pink-500 to-red-500",
+                )}
+              >
                 {currentPage} / {totalPages}
               </span>
               <Button
@@ -275,37 +342,85 @@ function DataPreview({ data, cardType, positionConfig }: Props) {
       {/* Summary Statistics */}
       <CardFooter className="mt-6">
         <div className="grid w-full grid-cols-2 gap-4 lg:grid-cols-4">
-          <div className="rounded-lg bg-gradient-to-r from-blue-50 to-indigo-50 p-3 text-center dark:from-blue-950 dark:to-indigo-950">
-            <div className="text-2xl font-bold text-blue-600 dark:text-blue-400">
+          <div
+            className={cn(
+              "rounded-lg bg-gradient-to-r p-3 text-center",
+              cardType === "KTP"
+                ? "from-blue-50 to-indigo-50 dark:from-blue-950 dark:to-indigo-950"
+                : "from-pink-50 to-red-50 dark:from-pink-800 dark:to-red-800",
+            )}
+          >
+            <div
+              className={cn(
+                "text-2xl font-bold",
+                cardType === "KTP"
+                  ? "text-blue-600 dark:text-blue-400"
+                  : "text-pink-600 dark:text-pink-200",
+              )}
+            >
               {data.length}
             </div>
-            <div className="text-sm text-blue-800 dark:text-blue-400">
-              Total Data
-            </div>
+            <div className="text-sm">Total Data</div>
           </div>
-          <div className="rounded-lg bg-gradient-to-r from-blue-50 to-indigo-50 p-3 text-center dark:from-blue-950 dark:to-indigo-950">
-            <div className="text-2xl font-bold text-blue-600 dark:text-blue-400">
+          <div
+            className={cn(
+              "rounded-lg bg-gradient-to-r p-3 text-center",
+              cardType === "KTP"
+                ? "from-blue-50 to-indigo-50 dark:from-blue-950 dark:to-indigo-950"
+                : "from-pink-50 to-red-50 dark:from-pink-800 dark:to-red-800",
+            )}
+          >
+            <div
+              className={cn(
+                "text-2xl font-bold",
+                cardType === "KTP"
+                  ? "text-blue-600 dark:text-blue-400"
+                  : "text-pink-600 dark:text-pink-200",
+              )}
+            >
               {data.filter((item) => item.gender === "Laki-laki").length}
             </div>
-            <div className="text-sm text-blue-800 dark:text-blue-400">
-              Laki-laki
-            </div>
+            <div className="text-sm">Laki-laki</div>
           </div>
-          <div className="rounded-lg bg-gradient-to-r from-blue-50 to-indigo-50 p-3 text-center dark:from-blue-950 dark:to-indigo-950">
-            <div className="text-2xl font-bold text-blue-600 dark:text-blue-400">
+          <div
+            className={cn(
+              "rounded-lg bg-gradient-to-r p-3 text-center",
+              cardType === "KTP"
+                ? "from-blue-50 to-indigo-50 dark:from-blue-950 dark:to-indigo-950"
+                : "from-pink-50 to-red-50 dark:from-pink-800 dark:to-red-800",
+            )}
+          >
+            <div
+              className={cn(
+                "text-2xl font-bold",
+                cardType === "KTP"
+                  ? "text-blue-600 dark:text-blue-400"
+                  : "text-pink-600 dark:text-pink-200",
+              )}
+            >
               {data.filter((item) => item.gender === "Perempuan").length}
             </div>
-            <div className="text-sm text-blue-800 dark:text-blue-400">
-              Perempuan
-            </div>
+            <div className="text-sm">Perempuan</div>
           </div>
-          <div className="rounded-lg bg-gradient-to-r from-blue-50 to-indigo-50 p-3 text-center dark:from-blue-950 dark:to-indigo-950">
-            <div className="text-2xl font-bold text-blue-600 dark:text-blue-400">
+          <div
+            className={cn(
+              "rounded-lg bg-gradient-to-r p-3 text-center",
+              cardType === "KTP"
+                ? "from-blue-50 to-indigo-50 dark:from-blue-950 dark:to-indigo-950"
+                : "from-pink-50 to-red-50 dark:from-pink-800 dark:to-red-800",
+            )}
+          >
+            <div
+              className={cn(
+                "text-2xl font-bold",
+                cardType === "KTP"
+                  ? "text-blue-600 dark:text-blue-400"
+                  : "text-pink-600 dark:text-pink-200",
+              )}
+            >
               {[...new Set(data.map((item) => item.province))].length}
             </div>
-            <div className="text-sm text-blue-800 dark:text-blue-400">
-              Provinsi
-            </div>
+            <div className="text-sm">Provinsi</div>
           </div>
         </div>
       </CardFooter>
