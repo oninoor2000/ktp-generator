@@ -1,0 +1,138 @@
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "WebSite",
+      "@id": "https://ktp-generator.vercel.app/#website",
+      "url": "https://ktp-generator.vercel.app/",
+      "name": "Generator Data KTP & KTA Indonesia",
+      "description": "Generator data dummy KTP dan KTA Indonesia gratis untuk keperluan testing, development, dan mockup. Tool online terbaik untuk developer Indonesia.",
+      "inLanguage": "id-ID",
+      "publisher": {
+        "@id": "https://ktp-generator.vercel.app/#organization"
+      },
+      "potentialAction": [
+        {
+          "@type": "SearchAction",
+          "target": {
+            "@type": "EntryPoint",
+            "urlTemplate": "https://ktp-generator.vercel.app/?q={search_term_string}"
+          },
+          "query-input": "required name=search_term_string"
+        }
+      ]
+    },
+    {
+      "@type": "Organization",
+      "@id": "https://ktp-generator.vercel.app/#organization",
+      "name": "KTP Generator Indonesia",
+      "url": "https://ktp-generator.vercel.app/",
+      "logo": {
+        "@type": "ImageObject",
+        "url": "https://ktp-generator.vercel.app/favicon.svg",
+        "width": "512",
+        "height": "512"
+      },
+      "sameAs": ["https://github.com/oninoor2000"]
+    },
+    {
+      "@type": "WebApplication",
+      "@id": "https://ktp-generator.vercel.app/#webapplication",
+      "url": "https://ktp-generator.vercel.app/",
+      "name": "Generator Data KTP & KTA Indonesia",
+      "description": "Tool gratis untuk generate data dummy KTP dan KTA Indonesia dengan format yang sesuai standar resmi. Cocok untuk testing, development, dan mockup project.",
+      "applicationCategory": "DeveloperApplication",
+      "operatingSystem": "Web Browser",
+      "author": {
+        "@type": "Person",
+        "name": "Oni Noor",
+        "url": "https://github.com/oninoor2000"
+      },
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "IDR",
+        "availability": "https://schema.org/InStock"
+      },
+      "featureList": [
+        "Generate data KTP Indonesia",
+        "Generate data KTA Indonesia",
+        "Export ke Excel (.xlsx)",
+        "Export ke PDF",
+        "Customizable field positions",
+        "Bulk data generation",
+        "Realistic Indonesian names",
+        "Valid NIK format",
+        "Province-based data"
+      ],
+      "screenshot": [
+        {
+          "@type": "ImageObject",
+          "url": "https://ktp-generator.vercel.app/KTP Template.png",
+          "description": "Screenshot Generator KTP Indonesia"
+        },
+        {
+          "@type": "ImageObject",
+          "url": "https://ktp-generator.vercel.app/KTA Template.png",
+          "description": "Screenshot Generator KTA Indonesia"
+        }
+      ],
+      "softwareVersion": "1.0.0",
+      "datePublished": "2024-01-01",
+      "dateModified": "2024-12-19",
+      "inLanguage": "id-ID",
+      "targetAudience": {
+        "@type": "Audience",
+        "audienceType": "Developers, QA Engineers, UI/UX Designers"
+      }
+    },
+    {
+      "@type": "BreadcrumbList",
+      "@id": "https://ktp-generator.vercel.app/#breadcrumb",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Home",
+          "item": "https://ktp-generator.vercel.app/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "Generator KTA",
+          "item": "https://ktp-generator.vercel.app/kta"
+        }
+      ]
+    },
+    {
+      "@type": "FAQPage",
+      "@id": "https://ktp-generator.vercel.app/#faq",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "Apakah data yang dihasilkan asli?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Tidak, semua data yang dihasilkan adalah data dummy/palsu yang dibuat untuk keperluan testing dan development. Data ini tidak boleh digunakan untuk keperluan ilegal."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Apakah gratis untuk digunakan?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Ya, tool ini sepenuhnya gratis untuk digunakan untuk keperluan testing, development, dan educational."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Format apa saja yang didukung untuk export?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Saat ini mendukung export ke format Excel (.xlsx) dan PDF untuk kedua jenis kartu KTP dan KTA."
+          }
+        }
+      ]
+    }
+  ]
+}

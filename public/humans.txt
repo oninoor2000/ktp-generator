@@ -1,0 +1,42 @@
+# Generator Data KTP & KTA Indonesia
+
+## TEAM
+
+Developer: Oni Noor
+Contact: https://github.com/oninoor2000
+Location: Indonesia
+
+## THANKS
+
+Open Source Community
+React.js Team
+Vite Team
+TanStack Router Team
+Vercel Team
+
+## TECHNOLOGY COLOPHON
+
+Frontend: React.js, TypeScript
+Styling: Tailwind CSS, shadcn/ui
+Routing: TanStack Router
+PDF Generation: pdf-lib
+Excel Export: xlsx
+Build Tool: Vite
+Hosting: Vercel
+Version Control: Git
+
+## SITE
+
+Last update: 2024/12/19
+Language: Indonesian / English
+Doctype: HTML5
+IDE: Visual Studio Code
+Standards: W3C, Accessibility Guidelines
+
+## PURPOSE
+
+This tool is created for educational and development purposes.
+Generate dummy data for KTP (Indonesian ID Card) and KTA (Indonesian Student Card).
+Free to use for testing, development, and mockup projects.
+
+⚠️ DISCLAIMER: All generated data is fake and should not be used for illegal purposes. 

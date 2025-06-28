@@ -1,11 +1,33 @@
 User-agent: *
 Allow: /
-Allow: /kta
 
-# Sitemaps
+# Sitemap location
 Sitemap: https://ktp-generator.vercel.app/sitemap.xml
 
-# Crawl-delay (optional)
+# Allow all search engines to crawl
+User-agent: Googlebot
+Allow: /
+
+User-agent: Bingbot
+Allow: /
+
+User-agent: Slurp
+Allow: /
+
+# Block specific file types that shouldn't be indexed
+User-agent: *
+Disallow: /*.json$
+Disallow: /*.ts$
+Disallow: /*.tsx$
+Disallow: /*.js.map$
+Disallow: /src/
+Disallow: /node_modules/
+
+# Cache control
+# Allow: /public/
+# Allow: /assets/
+
+# Crawl delay (optional, adjust as needed)
 Crawl-delay: 1
 
 # Disallow sensitive paths (if any)

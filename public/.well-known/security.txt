@@ -1,0 +1,11 @@
+Contact: https://github.com/oninoor2000
+Expires: 2025-12-31T23:59:59.000Z
+Encryption: https://github.com/oninoor2000.gpg
+Preferred-Languages: id, en
+Canonical: https://ktp-generator.vercel.app/.well-known/security.txt
+Policy: https://github.com/oninoor2000/ktp-generator/blob/main/SECURITY.md
+Hiring: https://github.com/oninoor2000
+
+# This is a tool for generating dummy/fake data for testing and development purposes only.
+# Please do not use the generated data for any illegal activities.
+# If you find any security vulnerabilities, please report them responsibly. 

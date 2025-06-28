@@ -1,19 +1,21 @@
 {
-  "name": "Generator Data KTP & KTA Indonesia",
+  "name": "Generator Data KTP & KTA Indonesia - Tool Gratis untuk Developer",
   "short_name": "KTP Generator",
-  "description": "Generator data dummy KTP dan KTA Indonesia gratis untuk keperluan testing dan development",
+  "description": "Generator data dummy KTP dan KTA Indonesia gratis untuk keperluan testing, development, dan mockup. Tool online terbaik untuk developer Indonesia.",
   "start_url": "/",
   "display": "standalone",
   "background_color": "#ffffff",
   "theme_color": "#3b82f6",
   "lang": "id",
-  "orientation": "portrait-primary",
+  "orientation": "any",
   "scope": "/",
+  "id": "ktp-generator-indonesia",
   "icons": [
     {
       "src": "/favicon.svg",
       "sizes": "any",
-      "type": "image/svg+xml"
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
     },
     {
       "src": "/vite.svg",
@@ -21,21 +23,41 @@
       "type": "image/svg+xml"
     }
   ],
-  "categories": ["utilities", "developer", "tools"],
+  "categories": ["utilities", "developer", "tools", "productivity"],
+  "screenshots": [
+    {
+      "src": "/KTP Template.png",
+      "sizes": "1280x720",
+      "type": "image/png",
+      "label": "Generator KTP Indonesia"
+    },
+    {
+      "src": "/KTA Template.png",
+      "sizes": "1280x720",
+      "type": "image/png",
+      "label": "Generator KTA Indonesia"
+    }
+  ],
   "shortcuts": [
     {
       "name": "Generate KTP",
       "short_name": "KTP",
-      "description": "Generate data dummy KTP Indonesia",
+      "description": "Generate data dummy KTP Indonesia untuk testing",
       "url": "/",
-      "icons": [{ "src": "/favicon-96x96.png", "sizes": "96x96" }]
+      "icons": [
+        { "src": "/favicon.svg", "sizes": "any", "type": "image/svg+xml" }
+      ]
     },
     {
       "name": "Generate KTA",
       "short_name": "KTA",
-      "description": "Generate data dummy KTA Indonesia",
+      "description": "Generate data dummy KTA Indonesia untuk development",
       "url": "/kta",
-      "icons": [{ "src": "/favicon-96x96.png", "sizes": "96x96" }]
+      "icons": [
+        { "src": "/favicon.svg", "sizes": "any", "type": "image/svg+xml" }
+      ]
     }
-  ]
+  ],
+  "related_applications": [],
+  "prefer_related_applications": false
 }
