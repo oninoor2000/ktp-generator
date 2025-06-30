@@ -25,8 +25,8 @@ export function loadKtaGeneratorSettings(): GeneratorSettingsType {
         data = {
           ...data,
           dataCount: Number(parsed.dataCount) || 10,
-          minAge: Number(parsed.minAge) || 17,
-          maxAge: Number(parsed.maxAge) || 65,
+          minAge: Number(parsed.minAge) || 1,
+          maxAge: Number(parsed.maxAge) || 16,
           gender: parsed.gender || "BOTH",
           province: Array.isArray(parsed.province)
             ? parsed.province

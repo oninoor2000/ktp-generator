@@ -107,14 +107,10 @@ function generateBirthPlace(regionData: BackendRegionalData): string {
 }
 
 /**
- * Capitalize function for proper formatting
+ * Convert text to uppercase for proper formatting
  */
-function capitalizeWords(text: string): string {
-  return text
-    .toLowerCase()
-    .split(" ")
-    .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
-    .join(" ");
+function toUpperCase(text: string): string {
+  return text.toUpperCase();
 }
 
 /**
@@ -173,7 +169,11 @@ export async function generateBackendKtpData(
     for (const regionData of regionalData) {
       // Generate basic data
       const gender = faker.person.sexType() as "male" | "female";
-      const birthDate = faker.date.birthdate({ min: 17, max: 80, mode: "age" });
+      const birthDate = faker.date.birthdate({
+        min: settings.minAge,
+        max: settings.maxAge,
+        mode: "age",
+      });
       const fullName = generateIndonesianName(gender);
       const birthPlace = generateBirthPlace(regionData);
       const addressData = generateFullAddress(regionData);
@@ -187,28 +187,26 @@ export async function generateBackendKtpData(
         gender,
       );
 
-      // Create KTP data with capitalized fields
+      // Create KTP data with uppercase fields
       const ktp: KTPGeneratedData = {
         nik,
-        name: fullName,
-        birthPlace,
+        name: toUpperCase(fullName),
+        birthPlace: toUpperCase(birthPlace),
         birthDate: formatDateDDMMYYYY(birthDate),
-        birthDatePlace: `${birthPlace}, ${formatDateDDMMYYYY(birthDate)}`,
-        gender: gender === "male" ? "Laki-laki" : "Perempuan",
+        birthDatePlace: `${toUpperCase(birthPlace)}, ${formatDateDDMMYYYY(birthDate)}`,
+        gender: gender === "male" ? "LAKI-LAKI" : "PEREMPUAN",
         bloodType: faker.helpers.arrayElement(bloodType),
-        address: addressData.address,
+        address: toUpperCase(addressData.address),
         rt: addressData.rtRw.split("/")[0],
         rw: addressData.rtRw.split("/")[1],
         rtRw: addressData.rtRw,
-        village: regionData.village.name,
-        city: addressData.city,
-        district: regionData.district.name,
-        province: regionData.province.name,
-        religion: capitalizeWords(faker.helpers.arrayElement(religion)),
-        maritalStatus: capitalizeWords(
-          faker.helpers.arrayElement(maritalStatus),
-        ),
-        occupation: capitalizeWords(faker.helpers.arrayElement(job)),
+        village: toUpperCase(regionData.village.name),
+        city: toUpperCase(addressData.city),
+        district: toUpperCase(regionData.district.name),
+        province: toUpperCase(regionData.province.name),
+        religion: toUpperCase(faker.helpers.arrayElement(religion)),
+        maritalStatus: toUpperCase(faker.helpers.arrayElement(maritalStatus)),
+        occupation: toUpperCase(faker.helpers.arrayElement(job)),
         nationality: "WNI",
         validityPeriod: "SEUMUR HIDUP",
       };
@@ -246,7 +244,12 @@ export async function generateBackendKtaData(
     for (const regionData of regionalData) {
       // Generate basic data
       const gender = faker.person.sexType() as "male" | "female";
-      const birthDate = faker.date.birthdate({ min: 17, max: 80, mode: "age" });
+      // KTA is for children, use minAge and maxAge from settings
+      const birthDate = faker.date.birthdate({
+        min: settings.minAge,
+        max: settings.maxAge,
+        mode: "age",
+      });
       const fullName = generateIndonesianName(gender);
       const birthPlace = generateBirthPlace(regionData);
       const addressData = generateFullAddress(regionData);
@@ -274,28 +277,35 @@ export async function generateBackendKtaData(
         return `${regionData.regency.id}-LK-${year}-${faker.string.numeric(8)}`;
       };
 
-      // Create KTA data with capitalized fields
+      // Create KTA data with uppercase fields
       const kta: KTAGeneratedData = {
         nik,
-        name: fullName,
-        birthPlace,
+        name: toUpperCase(fullName),
+        birthPlace: toUpperCase(birthPlace),
         birthDate: formatDateDDMMYYYY(birthDate),
-        birthDatePlace: `${birthPlace}, ${formatDateDDMMYYYY(birthDate)}`,
-        gender: gender === "male" ? "Laki-laki" : "Perempuan",
+        birthDatePlace: `${toUpperCase(birthPlace)}, ${formatDateDDMMYYYY(birthDate)}`,
+        gender: gender === "male" ? "LAKI-LAKI" : "PEREMPUAN",
         bloodType: faker.helpers.arrayElement(bloodType),
-        address: addressData.address,
+        address: toUpperCase(addressData.address),
         rt: addressData.rtRw.split("/")[0],
         rw: addressData.rtRw.split("/")[1],
         rtRw: addressData.rtRw,
-        village: regionData.village.name,
-        city: addressData.city,
-        district: regionData.district.name,
-        province: regionData.province.name,
-        religion: capitalizeWords(faker.helpers.arrayElement(religion)),
+        village: toUpperCase(regionData.village.name),
+        city: toUpperCase(addressData.city),
+        district: toUpperCase(regionData.district.name),
+        province: toUpperCase(regionData.province.name),
+        religion: toUpperCase(faker.helpers.arrayElement(religion)),
         nationality: "WNI",
-        validityPeriod: "BERLAKU HINGGA ANAK BERUSIA 17 TAHUN",
+        // For KTA (children), validity period is until they turn 17
+        validityPeriod: (() => {
+          // Calculate 17th birthday date
+          const seventeenthBirthday = new Date(birthDate);
+          seventeenthBirthday.setFullYear(birthDate.getFullYear() + 17);
+
+          return formatDateDDMMYYYY(seventeenthBirthday);
+        })(),
         familyCertificateNumber: generateKKNumber(),
-        headFamilyName: generateIndonesianName("male"),
+        headFamilyName: toUpperCase(generateIndonesianName("male")),
         birthCertificateNumber: generateAktaNumber(),
       };
 

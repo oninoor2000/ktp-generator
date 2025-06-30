@@ -7,6 +7,7 @@ import type {
   GeneratorSettingsActionType,
   GeneratorSettingsType,
 } from "@/lib/types";
+import type { KTPGeneratedData } from "@/lib/types/ktp-types";
 
 import {
   saveKtpPositionConfig,
@@ -92,6 +93,12 @@ function Index() {
               data={config.KTPData ?? []}
               cardType="KTP"
               positionConfig={config.KTPPositionConfig}
+              onDataImported={(data) => {
+                dispatch({
+                  type: "SET_KTP_DATA",
+                  payload: data as KTPGeneratedData[],
+                });
+              }}
             />
           </div>
         </div>

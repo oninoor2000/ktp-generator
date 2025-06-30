@@ -30,8 +30,8 @@ export const KTP_GENERATOR_SETTINGS_INITIAL_STATE: GeneratorSettingsType = {
 
 export const KTA_GENERATOR_SETTINGS_INITIAL_STATE: GeneratorSettingsType = {
   dataCount: 10,
-  minAge: 18,
-  maxAge: 60,
+  minAge: 1,
+  maxAge: 16,
   gender: "BOTH",
   province: ["DKI Jakarta"],
   KTAData: [],

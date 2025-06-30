@@ -122,7 +122,7 @@ export async function exportToExcel(
           `"${KTPItem.occupation}"`,
           `"${KTPItem.bloodType}"`,
           `"WNI"`,
-          `"Seumur Hidup"`,
+          `"SEUMUR HIDUP"`,
         ].join(",");
       }
     }),

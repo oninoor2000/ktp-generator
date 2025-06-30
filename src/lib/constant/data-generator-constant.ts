@@ -686,4 +686,4 @@ export const job = [
   "BELUM BEKERJA",
 ];
 
-export const bloodType = ["A", "B", "AB", "O"];
+export const bloodType = ["A+", "A-", "B+", "B-", "AB+", "AB-", "O+", "O-"];

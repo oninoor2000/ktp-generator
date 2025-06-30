@@ -34,14 +34,21 @@ import { Card, CardContent, CardFooter, CardHeader } from "./ui/card";
 import { exportKTAToPDF, exportKTPToPDF } from "@/service/pdf-exporter";
 import { DEFAULT_KTP_POSITION_CONFIG } from "@/lib/constant/ktp-position-constant";
 import { DEFAULT_KTA_POSITION_CONFIG } from "@/lib/constant/kta-postition-constant";
+import { CSVUpload } from "./csv-upload";
 
 interface Props {
   data: KTPGeneratedData[] | KTAGeneratedData[];
   cardType: CardType;
   positionConfig?: KTPPositionConfig | KTAPositionConfig;
+  onDataImported?: (data: KTPGeneratedData[] | KTAGeneratedData[]) => void;
 }
 
-function DataPreview({ data, cardType, positionConfig }: Props) {
+function DataPreview({
+  data,
+  cardType,
+  positionConfig,
+  onDataImported,
+}: Props) {
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 5;
   const totalPages = Math.ceil(data.length / itemsPerPage);
@@ -186,33 +193,41 @@ function DataPreview({ data, cardType, positionConfig }: Props) {
 
   if (data.length === 0) {
     return (
-      <Card className="flex h-full items-center justify-center">
-        <CardContent>
-          <div className="text-center">
-            <div
-              className={cn(
-                "mb-4 inline-block rounded-full bg-gradient-to-r p-4",
-                cardType === "KTP"
-                  ? "from-blue-100 to-indigo-100"
-                  : "from-pink-100 to-red-100",
-              )}
-            >
-              {cardType === "KTP" ? (
-                <CreditCard className="h-12 w-12 text-cyan-500" />
-              ) : (
-                <Baby className="h-12 w-12 text-pink-500" />
-              )}
+      <div className="space-y-6">
+        <Card className="flex h-full items-center justify-center">
+          <CardContent>
+            <div className="text-center">
+              <div
+                className={cn(
+                  "mb-4 inline-block rounded-full bg-gradient-to-r p-4",
+                  cardType === "KTP"
+                    ? "from-blue-100 to-indigo-100"
+                    : "from-pink-100 to-red-100",
+                )}
+              >
+                {cardType === "KTP" ? (
+                  <CreditCard className="h-12 w-12 text-cyan-500" />
+                ) : (
+                  <Baby className="h-12 w-12 text-pink-500" />
+                )}
+              </div>
+              <h3 className="mb-2 text-lg font-semibold">
+                Belum Ada Data {cardType === "KTP" ? "KTP" : "KTA"}
+              </h3>
+              <p className="text-muted-foreground">
+                Klik tombol "Generate Data" untuk membuat data dummy{" "}
+                {cardType === "KTP" ? "KTP" : "KTA"} Indonesia atau upload file
+                CSV
+              </p>
             </div>
-            <h3 className="mb-2 text-lg font-semibold">
-              Belum Ada Data {cardType === "KTP" ? "KTP" : "KTA"}
-            </h3>
-            <p className="text-muted-foreground">
-              Klik tombol "Generate Data" untuk membuat data dummy{" "}
-              {cardType === "KTP" ? "KTP" : "KTA"} Indonesia
-            </p>
-          </div>
-        </CardContent>
-      </Card>
+          </CardContent>
+        </Card>
+
+        {/* CSV Upload Component */}
+        {onDataImported && (
+          <CSVUpload cardType={cardType} onDataImported={onDataImported} />
+        )}
+      </div>
     );
   }
 

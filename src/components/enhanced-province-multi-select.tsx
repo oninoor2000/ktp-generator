@@ -287,12 +287,6 @@ export function EnhancedProvinceMultiSelect({ form, isGenerating }: Props) {
             </PopoverContent>
           </Popover>
 
-          <FormDescription>
-            Data provinsi diambil dari database MySQL lokal untuk akurasi dan
-            performa yang lebih baik. Total {provinces.length} provinsi
-            tersedia.
-          </FormDescription>
-
           <FormMessage />
         </FormItem>
       )}

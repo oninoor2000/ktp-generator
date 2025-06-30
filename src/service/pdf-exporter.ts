@@ -254,7 +254,7 @@ async function addKTPTextOverlay(
       case "nationality":
         return "WNI";
       case "validUntil":
-        return "Seumur Hidup";
+        return "SEUMUR HIDUP";
       default:
         return "";
     }

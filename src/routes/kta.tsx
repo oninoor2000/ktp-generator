@@ -7,6 +7,7 @@ import type {
   GeneratorSettingsActionType,
   GeneratorSettingsType,
 } from "@/lib/types";
+import type { KTAGeneratedData } from "@/lib/types/kta-types";
 
 import {
   saveKtaPositionConfig,
@@ -90,6 +91,12 @@ function KTA() {
               data={config.KTAData ?? []}
               cardType="KTA"
               positionConfig={config.KTAPositionConfig}
+              onDataImported={(data) => {
+                dispatch({
+                  type: "SET_KTA_DATA",
+                  payload: data as KTAGeneratedData[],
+                });
+              }}
             />
           </div>
         </div>

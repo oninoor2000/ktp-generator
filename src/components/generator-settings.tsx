@@ -49,7 +49,7 @@ import {
   VenusAndMars,
 } from "lucide-react";
 import { Button } from "./ui/button";
-import { DataGenerationStatus } from "./data-generation-status";
+// import { DataGenerationStatus } from "./data-generation-status";
 
 interface Props {
   cardType: CardType;
@@ -147,9 +147,9 @@ export function GeneratorSettings({ cardType, isGenerating }: Props) {
               </p>
             </div>
           </div>
-          <div className="flex justify-end">
+          {/* <div className="flex justify-end">
             <DataGenerationStatus />
-          </div>
+          </div> */}
         </div>
 
         <div>
