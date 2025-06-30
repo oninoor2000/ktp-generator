@@ -100,13 +100,12 @@ function generateFullAddress(regionData: BackendRegionalData): {
   city: string;
 } {
   const streetName = faker.location.streetAddress();
-  const rtRw = `${faker.string
-    .numeric({ length: 3, allowLeadingZeros: false })
-    .padStart(3, "0")
-    .slice(0, 3)}/${faker.string
-    .numeric({ length: 3, allowLeadingZeros: false })
-    .padStart(3, "0")
-    .slice(0, 3)}`;
+
+  // Generate smaller, more realistic RT/RW numbers
+  // RT: 001-030, RW: 001-015
+  const rt = faker.number.int({ min: 1, max: 30 }).toString().padStart(3, "0");
+  const rw = faker.number.int({ min: 1, max: 15 }).toString().padStart(3, "0");
+  const rtRw = `${rt}/${rw}`;
 
   return {
     address: streetName,

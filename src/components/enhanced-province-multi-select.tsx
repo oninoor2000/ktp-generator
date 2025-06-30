@@ -33,21 +33,31 @@ interface Props {
 
 export function EnhancedProvinceMultiSelect({ form, isGenerating }: Props) {
   const [isOpen, setIsOpen] = useState<boolean>(false);
+  const [hasInitialized, setHasInitialized] = useState<boolean>(false);
   const provinces = PROVINCES_DATA;
 
   const selectedProvinces = form.watch("province") || [];
 
-  // Set default province when component mounts
+  // Set default province only when component mounts and no initial values exist
   useEffect(() => {
-    if (selectedProvinces.length === 0) {
-      const jakarta = provinces.find(
-        (p) => p.name === "Daerah Khusus Ibukota Jakarta",
-      );
-      if (jakarta) {
-        form.setValue("province", [jakarta.name], { shouldValidate: true });
-      }
+    // Only initialize once and after a small delay to ensure form has been reset with config values
+    if (!hasInitialized) {
+      setTimeout(() => {
+        const currentProvinces = form.getValues("province");
+
+        // Only set default if there are truly no provinces
+        if (!currentProvinces || currentProvinces.length === 0) {
+          const jakarta = provinces.find(
+            (p) => p.name === "Daerah Khusus Ibukota Jakarta",
+          );
+          if (jakarta) {
+            form.setValue("province", [jakarta.name], { shouldValidate: true });
+          }
+        }
+        setHasInitialized(true);
+      }, 100); // Small delay to allow form reset to complete
     }
-  }, [form, selectedProvinces.length, provinces]);
+  }, [form, hasInitialized, provinces]);
 
   const handleProvinceToggle = useCallback(
     (provinceName: string) => {

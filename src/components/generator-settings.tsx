@@ -114,7 +114,7 @@ export function GeneratorSettings({ cardType, isGenerating }: Props) {
         minAge: Number(minAge),
         maxAge: Number(maxAge),
         gender,
-        province: province.map((p) => p.toUpperCase()),
+        province, // Remove .toUpperCase() conversion
       },
     });
   }, [dataCount, minAge, maxAge, gender, province, dispatch, cardType, form]);

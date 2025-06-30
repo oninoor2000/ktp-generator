@@ -19,7 +19,7 @@ Generator data KTP dan KTA Indonesia dengan data regional yang akurat menggunaka
 - **Styling**: Tailwind CSS + shadcn/ui
 - **Routing**: TanStack Router
 - **Data**: Faker.js + Backend API
-- **Export**: xlsx + jsPDF
+- **Export**: xlsx + pdf-lib
 
 ## Quick Start
 
