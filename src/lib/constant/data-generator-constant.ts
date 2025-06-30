@@ -540,47 +540,150 @@ export const maritalStatus = [
 ];
 
 export const job = [
-  "KARYAWAN SWASTA",
+  // Pekerjaan Pemerintahan & Hukum
   "PEGAWAI NEGERI SIPIL",
-  "WIRASWASTA",
-  "PETANI",
-  "NELAYAN",
-  "GURU",
-  "DOKTER",
-  "PERAWAT",
-  "POLRI",
   "TNI",
-  "PEDAGANG",
-  "SUPIR",
-  "TUKANG",
-  "BURUH",
-  "MAHASISWA",
-  "PENSIUNAN",
-  "IBURUMAHTANGGA",
-  "SENIMAN",
-  "WARTAWAN",
-  "USTADZ/MUBALIGH",
-  "PSIKOLOG",
+  "POLRI",
+  "HAKIM",
+  "JAKSA",
   "ADVOKAT",
   "NOTARIS",
+  "PEJABAT PEMERINTAHAN",
+
+  // Pekerjaan Swasta & Bisnis
+  "KARYAWAN SWASTA",
+  "WIRASWASTA",
+  "PEDAGANG",
+  "PENGUSAHA",
+  "DIREKTUR",
+  "MANAGER",
+  "SUPERVISOR",
+  "MARKETING",
+  "SALES",
+  "ADMINISTRASI",
+
+  // Pendidikan & Akademik
+  "GURU",
   "DOSEN",
-  "AKUNTAN",
-  "KONSULTAN",
+  "KEPALA SEKOLAH",
+  "TUTOR",
+  "INSTRUKTUR",
+  "PENELITI",
+  "MAHASISWA",
+  "PELAJAR",
+
+  // Kesehatan & Medis
+  "DOKTER",
+  "PERAWAT",
+  "BIDAN",
+  "APOTEKER",
+  "DOKTER GIGI",
+  "AHLI GIZI",
+  "FISIOTERAPIS",
+  "PARAMEDIS",
+  "RADIOGRAFER",
+
+  // Pertanian & Perikanan
+  "PETANI",
+  "PETERNAK",
+  "NELAYAN",
+  "PEMBUDIDAYA IKAN",
+  "BURUH TANI",
+
+  // Teknik & Teknologi
   "TEKNISI",
   "MONTIR",
+  "MEKANIK",
+  "PROGRAMMER",
+  "ANALIS SISTEM",
+  "NETWORK ADMINISTRATOR",
+  "IT SUPPORT",
+  "ENGINEER",
+  "ARSITEK",
+
+  // Keuangan & Perbankan
+  "AKUNTAN",
   "TELLER",
+  "CUSTOMER SERVICE",
+  "ANALIS KREDIT",
+  "KONSULTAN KEUANGAN",
   "KASIR",
+
+  // Transportasi & Logistik
+  "SUPIR",
+  "DRIVER",
+  "OJEK ONLINE",
+  "KURIR",
+  "PILOT",
+  "MASINIS",
+  "KONDEKTUR",
+  "EKSPEDISI",
+
+  // Pelayanan & Hospitality
+  "PRAMUSAJI",
+  "RESEPSIONIS",
+  "CHEF",
+  "KOKI",
+  "BARTENDER",
+  "ROOM BOY",
+  "HOUSEKEEPING",
   "SECURITY",
   "CLEANING SERVICE",
-  "OJEK",
-  "GOJEK",
-  "GRAB",
-  "DRIVER",
-  "KURIR",
-  "FREELANCER",
+
+  // Media & Kreatif
+  "WARTAWAN",
+  "EDITOR",
+  "FOTOGRAFER",
+  "VIDEOGRAPHER",
+  "DESAINER GRAFIS",
+  "SENIMAN",
+  "PENULIS",
+  "CONTENT CREATOR",
   "YOUTUBER",
   "BLOGGER",
   "INFLUENCER",
+
+  // Agama & Sosial
+  "USTADZ",
+  "PENDETA",
+  "PASTOR",
+  "IMAM",
+  "GURU NGAJI",
+  "MUBALIGH",
+  "ROHANIWAN",
+
+  // Konsultan & Profesi
+  "KONSULTAN",
+  "PSIKOLOG",
+  "KONSELOR",
+  "AUDITOR",
+  "SURVEYOR",
+  "MAKELAR",
+  "AGEN ASURANSI",
+
+  // Konstruksi & Kerajinan
+  "TUKANG",
+  "TUKANG BATU",
+  "TUKANG KAYU",
+  "TUKANG LAS",
+  "TUKANG CAT",
+  "BURUH BANGUNAN",
+  "MANDOR",
+
+  // Industri & Manufaktur
+  "BURUH",
+  "OPERATOR MESIN",
+  "QUALITY CONTROL",
+  "FOREMAN",
+  "WELDER",
+
+  // Lain-lain
+  "PENSIUNAN",
+  "IBU RUMAH TANGGA",
+  "FREELANCER",
+  "PEKERJA LEPAS",
+  "TIDAK BEKERJA",
+  "BELUM BEKERJA",
 ];
 
 export const bloodType = ["A", "B", "AB", "O"];

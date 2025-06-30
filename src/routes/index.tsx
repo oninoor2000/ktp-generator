@@ -17,7 +17,7 @@ import {
   GeneratorSettingsContext,
   GeneratorSettingsDispatchContext,
 } from "@/context/generator-settings-context";
-import { generateKtpData } from "@/service/data-generator";
+import { generateKtpData } from "@/service/data-generation-service";
 import { GeneratorSettings } from "@/components/generator-settings";
 import { DEFAULT_KTP_POSITION_CONFIG } from "@/lib/constant/ktp-position-constant";
 
@@ -34,7 +34,7 @@ function Index() {
   const handleGenerateData = async (payload: GeneratorSettingsType) => {
     setIsGenerating(true);
     try {
-      const data = generateKtpData(payload);
+      const data = await generateKtpData(payload);
       await new Promise((resolve) => setTimeout(resolve, 500));
       dispatch({ type: "SET_KTP_DATA", payload: data });
       setIsGenerating(false);

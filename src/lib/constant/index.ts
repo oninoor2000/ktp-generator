@@ -23,7 +23,7 @@ export const KTP_GENERATOR_SETTINGS_INITIAL_STATE: GeneratorSettingsType = {
   minAge: 18,
   maxAge: 60,
   gender: "BOTH",
-  province: ["DKI JAKARTA"],
+  province: ["DKI Jakarta"],
   KTPData: [],
   KTPPositionConfig: DEFAULT_KTP_POSITION_CONFIG,
 };
@@ -33,7 +33,7 @@ export const KTA_GENERATOR_SETTINGS_INITIAL_STATE: GeneratorSettingsType = {
   minAge: 18,
   maxAge: 60,
   gender: "BOTH",
-  province: ["DKI JAKARTA"],
+  province: ["DKI Jakarta"],
   KTAData: [],
   KTAPositionConfig: DEFAULT_KTA_POSITION_CONFIG,
 };

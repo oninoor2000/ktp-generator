@@ -1,157 +1,71 @@
-# 🆔 Generator Data KTP & KTA Indonesia
+# KTP Generator
 
-[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https://github.com/oninoor2000/ktp-generator)
-[![GitHub license](https://img.shields.io/github/license/oninoor2000/ktp-generator)](https://github.com/oninoor2000/ktp-generator/blob/main/LICENSE)
-[![GitHub stars](https://img.shields.io/github/stars/oninoor2000/ktp-generator)](https://github.com/oninoor2000/ktp-generator/stargazers)
+Generator data KTP dan KTA Indonesia dengan data regional yang akurat menggunakan backend API.
 
-Aplikasi web gratis untuk generate data dummy KTP (Kartu Tanda Penduduk) dan KTA (Kartu Tanda Pengenal Anak) Indonesia. Cocok untuk keperluan testing, development, dan mockup aplikasi.
+## Features
 
-## ✨ Fitur
+- 🎯 Generate data KTP dan KTA sesuai format resmi Indonesia
+- 🌍 Data regional akurat (Provinsi, Kabupaten, Kecamatan, Kelurahan)
+- 📊 Export ke Excel dan PDF
+- 🎨 Modern UI dengan Tailwind CSS
+- ⚡ Fast dengan Vite + React + TypeScript
+- 🔒 Type-safe dengan TypeScript
 
-- 🎯 **Generate Data KTP Indonesia** - Lengkap dengan NIK, nama, alamat, dan informasi sesuai format resmi
-- 👶 **Generate Data KTA Indonesia** - Data kartu tanda pengenal untuk anak-anak dengan format yang sesuai
-- 🌍 **Semua Provinsi Indonesia** - Pilih data dari seluruh provinsi di Indonesia
-- 📊 **Export ke Excel** - Download hasil generate dalam format .xlsx
-- 🎛️ **Pengaturan Fleksibel** - Atur jumlah data, usia, gender, dan provinsi
-- 🎨 **UI Modern** - Interface yang clean dan responsive
-- ⚡ **Performa Cepat** - Generate ribuan data dalam hitungan detik
-- 🌙 **Dark/Light Theme** - Pilihan tema gelap dan terang
+## Tech Stack
 
-## 🚀 Demo
-
-Lihat aplikasi live di: [https://ktp-generator.vercel.app](https://ktp-generator.vercel.app)
-
-## 🛠️ Tech Stack
-
-- **Frontend**: React 19, TypeScript
+- **Frontend**: React 18 + TypeScript + Vite
+- **Styling**: Tailwind CSS + shadcn/ui
 - **Routing**: TanStack Router
-- **Styling**: Tailwind CSS v4, Radix UI
-- **State Management**: React Hook Form, Immer
-- **Build Tool**: Vite
-- **Deployment**: Vercel
+- **Data**: Faker.js + Backend API
+- **Export**: xlsx + jsPDF
 
-## 📦 Instalasi
-
-### Prerequisites
-
-- Node.js 18+
-- npm atau pnpm
-
-### Clone Repository
+## Quick Start
 
 ```bash
-git clone https://github.com/oninoor2000/ktp-generator.git
-cd ktp-generator
-```
-
-### Install Dependencies
-
-```bash
+# Install dependencies
 npm install
-# atau
-pnpm install
-```
 
-### Development
-
-```bash
+# Start development server
 npm run dev
-# atau
-pnpm dev
-```
 
-Buka [http://localhost:5173](http://localhost:5173) di browser.
-
-### Build Production
-
-```bash
+# Build for production
 npm run build
-# atau
-pnpm build
 ```
 
-## 📋 Penggunaan
+## Usage
 
-1. **Pilih Jenis Data**: KTP atau KTA
-2. **Atur Pengaturan**:
-   - Jumlah data yang ingin di-generate (1-1000)
-   - Rentang usia (min-max)
-   - Gender (Laki-laki, Perempuan, atau Keduanya)
-   - Pilih provinsi (bisa multiple selection)
-3. **Generate Data**: Klik tombol "Generate Data"
-4. **Export**: Download hasil dalam format Excel
+1. Pilih provinsi dari dropdown
+2. Tentukan jumlah data yang ingin di-generate
+3. Pilih jenis kartu (KTP/KTA)
+4. Klik "Generate Data"
+5. Export ke Excel atau PDF
 
-## 🔒 Disclaimer
+## API Endpoints
 
-⚠️ **PENTING**: Data yang dihasilkan adalah **DUMMY/PALSU** dan hanya untuk keperluan:
+Backend API yang dibutuhkan:
 
-- Testing aplikasi
-- Development/mockup
-- Pembelajaran
-- Demo/presentasi
+```
+GET /api/provinces           # Daftar provinsi
+POST /api/regions/random     # Generate data regional random
+```
 
-**DILARANG** menggunakan data ini untuk:
+## Environment Variables
 
-- Dokumen resmi
-- Penipuan atau fraud
-- Aktivitas ilegal
-- Menyesatkan pihak lain
+```env
+VITE_BACKEND_API_URL=http://localhost:3001/api
+```
 
-## 📄 Struktur Data
+## Project Structure
 
-### Data KTP
+```
+src/
+├── components/          # UI components
+├── routes/             # Page routes
+├── service/            # API services
+├── lib/               # Utilities & types
+└── assets/            # Static assets
+```
 
-- NIK (16 digit sesuai format Indonesia)
-- Nama Lengkap
-- Tempat/Tanggal Lahir
-- Jenis Kelamin
-- Alamat Lengkap (RT/RW, Kelurahan, Kecamatan)
-- Kota/Kabupaten
-- Provinsi
-- Agama
-- Status Perkawinan
-- Pekerjaan
-- Golongan Darah
+## License
 
-### Data KTA
-
-- Semua field KTP +
-- Nomor KK
-- Nama Kepala Keluarga
-- Nomor Akte Kelahiran
-- Masa Berlaku
-
-## 🤝 Contributing
-
-Kontribusi sangat diterima! Silakan:
-
-1. Fork repository ini
-2. Buat branch feature (`git checkout -b feature/AmazingFeature`)
-3. Commit perubahan (`git commit -m 'Add some AmazingFeature'`)
-4. Push ke branch (`git push origin feature/AmazingFeature`)
-5. Buat Pull Request
-
-## 📝 License
-
-Distributed under the MIT License. See `LICENSE` for more information.
-
-## 👨‍💻 Author
-
-**Oni Noor**
-
-- GitHub: [@oninoor2000](https://github.com/oninoor2000)
-- Website: [https://ktp-generator.vercel.app](https://ktp-generator.vercel.app)
-
-## 🙏 Acknowledgments
-
-- Data provinsi dan kota berdasarkan data resmi Indonesia
-- UI components dari [Radix UI](https://www.radix-ui.com/)
-- Icons dari [Lucide React](https://lucide.dev/)
-
----
-
-## 🌟 Star History
-
-Jika aplikasi ini membantu, jangan lupa berikan ⭐ di repository ini!
-
-[![Star History Chart](https://api.star-history.com/svg?repos=oninoor2000/ktp-generator&type=Date)](https://star-history.com/#oninoor2000/ktp-generator&Date)
+MIT License

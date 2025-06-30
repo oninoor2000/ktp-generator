@@ -1,7 +1,8 @@
 import { StrictMode } from "react";
-import ReactDOM from "react-dom/client";
+import { createRoot } from "react-dom/client";
 import { ClerkProvider } from "@clerk/clerk-react";
 import { RouterProvider, createRouter } from "@tanstack/react-router";
+import { ThemeProvider } from "@/components/theme-provider";
 import "./index.css";
 
 // Import your Publishable Key
@@ -31,15 +32,18 @@ declare module "@tanstack/react-router" {
   }
 }
 
+// Log environment information
+console.log("🌐 KTP Generator - Browser Environment");
+console.log("ℹ️ Database functionality will use backend API when available");
+console.log("🔧 MySQL connections are handled server-side only");
+
 // Render the app
-const rootElement = document.getElementById("root")!;
-if (!rootElement.innerHTML) {
-  const root = ReactDOM.createRoot(rootElement);
-  root.render(
-    <StrictMode>
-      <ClerkProvider publishableKey={PUBLISHABLE_KEY}>
+createRoot(document.getElementById("root")!).render(
+  <StrictMode>
+    <ClerkProvider publishableKey={PUBLISHABLE_KEY}>
+      <ThemeProvider defaultTheme="dark" storageKey="vite-ui-theme">
         <RouterProvider router={router} />
-      </ClerkProvider>
-    </StrictMode>
-  );
-}
+      </ThemeProvider>
+    </ClerkProvider>
+  </StrictMode>,
+);

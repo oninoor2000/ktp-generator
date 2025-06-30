@@ -13,7 +13,7 @@ import {
   loadKtaGeneratorSettings,
   saveKtaGeneratorSettings,
 } from "@/service/kta-service";
-import { generateKtaData } from "@/service/data-generator";
+import { generateKtaData } from "@/service/data-generation-service";
 import {
   GeneratorSettingsContext,
   GeneratorSettingsDispatchContext,
@@ -32,7 +32,7 @@ function KTA() {
   const handleGenerateData = async (payload: GeneratorSettingsType) => {
     setIsGenerating(true);
     try {
-      const data = generateKtaData(payload);
+      const data = await generateKtaData(payload);
       await new Promise((resolve) => setTimeout(resolve, 500));
       dispatch({ type: "SET_KTA_DATA", payload: data });
       setIsGenerating(false);

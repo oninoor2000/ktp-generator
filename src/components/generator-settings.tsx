@@ -34,7 +34,7 @@ import {
 import { cn } from "@/lib/utils";
 import { Input } from "./ui/input";
 import { Card, CardContent } from "./ui/card";
-import { ProvinceMultiSelect } from "./province-multi-select";
+import { EnhancedProvinceMultiSelect } from "./enhanced-province-multi-select";
 import {
   generatorFormSchema,
   type GeneratorFormSchemaType,
@@ -49,6 +49,7 @@ import {
   VenusAndMars,
 } from "lucide-react";
 import { Button } from "./ui/button";
+import { DataGenerationStatus } from "./data-generation-status";
 
 interface Props {
   cardType: CardType;
@@ -121,28 +122,33 @@ export function GeneratorSettings({ cardType, isGenerating }: Props) {
   return (
     <Card className="p-5">
       <CardContent className="p-0">
-        <div className="mb-6 flex items-center gap-3">
-          <div
-            className={cn(
-              "rounded-xl bg-gradient-to-r p-3",
-              cardType === "KTP" && "from-cyan-500 to-blue-600",
-              cardType === "KTA" && "from-pink-500 to-red-500",
-            )}
-          >
-            {cardType === "KTP" && (
-              <CreditCard className="h-6 w-6 text-white" />
-            )}
-            {cardType === "KTA" && <Baby className="h-6 w-6 text-white" />}
+        <div className="mb-6 space-y-4">
+          <div className="flex items-center gap-3">
+            <div
+              className={cn(
+                "rounded-xl bg-gradient-to-r p-3",
+                cardType === "KTP" && "from-cyan-500 to-blue-600",
+                cardType === "KTA" && "from-pink-500 to-red-500",
+              )}
+            >
+              {cardType === "KTP" && (
+                <CreditCard className="h-6 w-6 text-white" />
+              )}
+              {cardType === "KTA" && <Baby className="h-6 w-6 text-white" />}
+            </div>
+            <div className="flex-1">
+              <h1 className="text-xl font-bold">
+                Generator Data {cardType === "KTP" ? "KTP" : "KTA"}
+              </h1>
+              <p className="text-muted-foreground text-sm">
+                {cardType === "KTP"
+                  ? "Kartu Tanda Penduduk untuk warga negara Indonesia"
+                  : "Kartu Tanda Penduduk untuk anak-anak warga negara Indonesia"}
+              </p>
+            </div>
           </div>
-          <div>
-            <h1 className="text-xl font-bold">
-              Generator Data {cardType === "KTP" ? "KTP" : "KTA"}
-            </h1>
-            <p className="text-muted-foreground text-sm">
-              {cardType === "KTP"
-                ? "Kartu Tanda Penduduk untuk warga negara Indonesia"
-                : "Kartu Tanda Penduduk untuk anak-anak warga negara Indonesia"}
-            </p>
+          <div className="flex justify-end">
+            <DataGenerationStatus />
           </div>
         </div>
 
@@ -283,7 +289,10 @@ export function GeneratorSettings({ cardType, isGenerating }: Props) {
               />
 
               {/* Province */}
-              <ProvinceMultiSelect form={form} isGenerating={isGenerating} />
+              <EnhancedProvinceMultiSelect
+                form={form}
+                isGenerating={isGenerating}
+              />
 
               <Button
                 className={cn(
