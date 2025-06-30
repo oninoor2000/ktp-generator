@@ -33,9 +33,6 @@ declare module "@tanstack/react-router" {
 }
 
 // Log environment information
-console.log("🌐 KTP Generator - Browser Environment");
-console.log("ℹ️ Database functionality will use backend API when available");
-console.log("🔧 MySQL connections are handled server-side only");
 
 // Render the app
 createRoot(document.getElementById("root")!).render(

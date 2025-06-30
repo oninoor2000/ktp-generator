@@ -30,7 +30,7 @@ export function loadKtpGeneratorSettings(): GeneratorSettingsType {
           gender: parsed.gender || "BOTH",
           province: Array.isArray(parsed.province)
             ? parsed.province
-            : ["DKI JAKARTA"],
+            : ["Daerah Khusus Ibukota Jakarta"],
         };
       }
     }

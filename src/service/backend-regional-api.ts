@@ -79,28 +79,16 @@ export async function fetchProvincesFromBackend(): Promise<Province[]> {
 
   // Check if we have valid cached data
   if (provinceCache.data && now - provinceCache.timestamp < provinceCache.ttl) {
-    console.log("🔄 Using cached province data");
     return provinceCache.data;
   }
 
   try {
-    console.log("🌐 Fetching provinces from backend API...");
-    console.log(`📍 API URL: ${BACKEND_API_BASE_URL}/provinces`);
-
     const response = await fetch(`${BACKEND_API_BASE_URL}/provinces`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
       },
     });
-
-    console.log(
-      `📊 Response status: ${response.status} ${response.statusText}`,
-    );
-    console.log(
-      `📊 Response headers:`,
-      Object.fromEntries(response.headers.entries()),
-    );
 
     if (!response.ok) {
       // Get response text for better error diagnosis
@@ -137,14 +125,12 @@ export async function fetchProvincesFromBackend(): Promise<Province[]> {
     provinceCache.data = data.data;
     provinceCache.timestamp = now;
 
-    console.log(`✅ Loaded ${data.data.length} provinces from backend API`);
     return data.data;
   } catch (error) {
     console.error("Error fetching provinces from backend:", error);
 
     // If we have stale cached data, use it as fallback
     if (provinceCache.data) {
-      console.log("⚠️ Using stale cached province data as fallback");
       return provinceCache.data;
     }
 
@@ -158,7 +144,6 @@ export async function fetchProvincesFromBackend(): Promise<Province[]> {
 export function clearProvinceCache(): void {
   provinceCache.data = null;
   provinceCache.timestamp = 0;
-  console.log("🗑️ Province cache cleared");
 }
 
 /**

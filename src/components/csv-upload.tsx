@@ -127,7 +127,7 @@ export function CSVUpload({ cardType, onDataImported }: Props) {
             onClick={handleUploadClick}
             disabled={isUploading}
             className={cn(
-              "flex flex-1 items-center gap-2 transition-all duration-200",
+              "flex flex-1 cursor-pointer items-center gap-2 transition-all duration-200",
               cardType === "KTP"
                 ? "bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-600 hover:to-blue-700"
                 : "bg-gradient-to-r from-pink-500 to-red-500 hover:from-pink-600 hover:to-red-600",
@@ -140,7 +140,7 @@ export function CSVUpload({ cardType, onDataImported }: Props) {
           <Button
             onClick={handleDownloadTemplate}
             variant="outline"
-            className="flex items-center gap-2"
+            className="flex cursor-pointer items-center gap-2"
           >
             <Download className="h-4 w-4" />
             Download Template

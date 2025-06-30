@@ -315,24 +315,6 @@ async function addKTPTextOverlay(
     // Parse color
     const color = hexToRgb(fieldConfig.style.color);
 
-    // Enhanced debug log for calibration
-    if (
-      field === "nik" ||
-      field === "name" ||
-      field === "province" ||
-      field === "city"
-    ) {
-      console.log(`Field ${field}:`, {
-        value,
-        cssPercent: { x: fieldConfig.position.x, y: fieldConfig.position.y },
-        cssPixels: { x, y },
-        pdfCoord: { x: pdfX, y: pdfY },
-        fontSize: fieldConfig.style.fontSize,
-        manualYOffset: MANUAL_Y_OFFSET,
-        alignment: fieldConfig.position.align,
-      });
-    }
-
     page.drawText(value, {
       x: pdfX,
       y: pdfY,
@@ -454,24 +436,6 @@ async function addKTATextOverlay(
 
     // Parse color
     const color = hexToRgb(fieldConfig.style.color);
-
-    // Enhanced debug log for calibration
-    if (
-      field === "nik" ||
-      field === "name" ||
-      field === "province" ||
-      field === "city"
-    ) {
-      console.log(`Field ${field}:`, {
-        value,
-        cssPercent: { x: fieldConfig.position.x, y: fieldConfig.position.y },
-        cssPixels: { x, y },
-        pdfCoord: { x: pdfX, y: pdfY },
-        fontSize: fieldConfig.style.fontSize,
-        manualYOffset: MANUAL_Y_OFFSET,
-        alignment: fieldConfig.position.align,
-      });
-    }
 
     page.drawText(value, {
       x: pdfX,

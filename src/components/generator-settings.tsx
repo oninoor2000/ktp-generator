@@ -310,10 +310,7 @@ export function GeneratorSettings({ cardType, isGenerating }: Props) {
                   // Trigger validation first
                   const isValid = await form.trigger();
 
-                  if (!isValid) {
-                    const errors = form.formState.errors;
-                    console.log("Validation errors:", errors);
-                  } else {
+                  if (isValid) {
                     form.handleSubmit(onSubmit)();
                   }
                 }}

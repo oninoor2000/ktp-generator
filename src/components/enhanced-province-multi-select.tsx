@@ -5,7 +5,6 @@ import type { GeneratorFormSchemaType } from "@/lib/schema";
 
 import {
   FormControl,
-  FormDescription,
   FormField,
   FormItem,
   FormLabel,
@@ -23,9 +22,9 @@ import { cn } from "@/lib/utils";
 import { Badge } from "./ui/badge";
 import { Button } from "./ui/button";
 import { Checkbox } from "./ui/checkbox";
-import { ChevronsUpDown, Globe2Icon, X, Loader2 } from "lucide-react";
+import { ChevronsUpDown, Globe2Icon, X } from "lucide-react";
 import { Popover, PopoverContent, PopoverTrigger } from "./ui/popover";
-import { getProvinces } from "@/service/data-generation-service";
+import { PROVINCES_DATA } from "@/lib/constant/data-generator-constant";
 
 interface Props {
   form: UseFormReturn<GeneratorFormSchemaType>;
@@ -34,56 +33,21 @@ interface Props {
 
 export function EnhancedProvinceMultiSelect({ form, isGenerating }: Props) {
   const [isOpen, setIsOpen] = useState<boolean>(false);
-  const [provinces, setProvinces] = useState<{ name: string; id: string }[]>(
-    [],
-  );
-  const [isLoadingProvinces, setIsLoadingProvinces] = useState<boolean>(false);
-  const [error, setError] = useState<string | null>(null);
+  const provinces = PROVINCES_DATA;
 
   const selectedProvinces = form.watch("province") || [];
 
-  // Load provinces when component mounts
+  // Set default province when component mounts
   useEffect(() => {
-    const loadProvinces = async () => {
-      setIsLoadingProvinces(true);
-      setError(null);
-
-      try {
-        const provincesData = await getProvinces();
-        setProvinces(provincesData);
-
-        // If no provinces are selected yet, default to DKI Jakarta
-        if (selectedProvinces.length === 0) {
-          const jakarta = provincesData.find(
-            (p: { name: string; id: string }) => p.name === "DKI JAKARTA",
-          );
-          if (jakarta) {
-            form.setValue("province", [jakarta.name], { shouldValidate: true });
-          }
-        }
-      } catch (err) {
-        console.error("Error loading provinces:", err);
-        setError("Gagal memuat data provinsi. Menggunakan data fallback.");
-
-        // Use fallback provinces
-        const fallbackProvinces: { name: string; id: string }[] = [
-          { id: "31", name: "DKI JAKARTA" },
-          { id: "32", name: "JAWA BARAT" },
-          { id: "33", name: "JAWA TENGAH" },
-          { id: "35", name: "JAWA TIMUR" },
-        ];
-        setProvinces(fallbackProvinces);
-
-        if (selectedProvinces.length === 0) {
-          form.setValue("province", ["DKI JAKARTA"], { shouldValidate: true });
-        }
-      } finally {
-        setIsLoadingProvinces(false);
+    if (selectedProvinces.length === 0) {
+      const jakarta = provinces.find(
+        (p) => p.name === "Daerah Khusus Ibukota Jakarta",
+      );
+      if (jakarta) {
+        form.setValue("province", [jakarta.name], { shouldValidate: true });
       }
-    };
-
-    loadProvinces();
-  }, [form, selectedProvinces.length]);
+    }
+  }, [form, selectedProvinces.length, provinces]);
 
   const handleProvinceToggle = useCallback(
     (provinceName: string) => {
@@ -135,12 +99,6 @@ export function EnhancedProvinceMultiSelect({ form, isGenerating }: Props) {
             <Globe2Icon className="h-4 w-4" /> Provinsi
           </FormLabel>
 
-          {error && (
-            <FormDescription className="text-amber-600">
-              {error}
-            </FormDescription>
-          )}
-
           {/* Display selected provinces */}
           {selectedProvinces.length > 0 && (
             <div className="mb-2 flex flex-wrap gap-1">
@@ -187,20 +145,13 @@ export function EnhancedProvinceMultiSelect({ form, isGenerating }: Props) {
                     "w-full cursor-pointer justify-between font-normal",
                     selectedProvinces.length === 0 && "text-muted-foreground",
                   )}
-                  disabled={isGenerating || isLoadingProvinces}
+                  disabled={isGenerating}
                 >
-                  {isLoadingProvinces ? (
-                    <div className="flex items-center gap-2">
-                      <Loader2 className="h-4 w-4 animate-spin" />
-                      Memuat provinsi...
-                    </div>
-                  ) : selectedProvinces.length === 0 ? (
-                    "Pilih provinsi"
-                  ) : selectedProvinces.length === 1 ? (
-                    selectedProvinces[0]
-                  ) : (
-                    `${selectedProvinces.length} provinsi dipilih`
-                  )}
+                  {selectedProvinces.length === 0
+                    ? "Pilih provinsi"
+                    : selectedProvinces.length === 1
+                      ? selectedProvinces[0]
+                      : `${selectedProvinces.length} provinsi dipilih`}
                   <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
                 </Button>
               </FormControl>
@@ -210,77 +161,62 @@ export function EnhancedProvinceMultiSelect({ form, isGenerating }: Props) {
                 <CommandInput placeholder="Cari provinsi..." className="h-9" />
                 <CommandList>
                   <CommandEmpty>
-                    {isLoadingProvinces
-                      ? "Memuat data provinsi..."
-                      : "Tidak ada provinsi yang ditemukan."}
+                    Tidak ada provinsi yang ditemukan.
                   </CommandEmpty>
                   <CommandGroup>
-                    {!isLoadingProvinces && (
-                      <>
-                        {/* Bulk actions */}
-                        <div className="flex gap-2 border-b p-2">
-                          <Button
-                            type="button"
-                            variant="outline"
-                            size="sm"
-                            onClick={(e) => {
-                              e.stopPropagation();
-                              selectAllProvinces();
-                              setIsOpen(false);
-                            }}
-                            className="h-7 cursor-pointer border-blue-600/20 bg-blue-600/10 text-xs text-blue-600 hover:bg-blue-600/20 hover:text-blue-600"
-                          >
-                            Pilih Semua ({provinces.length})
-                          </Button>
-                          <Button
-                            type="button"
-                            variant="outline"
-                            size="sm"
-                            onClick={(e) => {
-                              e.stopPropagation();
-                              deselectAllProvinces();
-                              setIsOpen(false);
-                            }}
-                            className="h-7 cursor-pointer border-transparent text-xs shadow-none hover:border-red-500/20 hover:bg-red-500/10 hover:text-red-500"
-                          >
-                            Hapus Semua
-                          </Button>
-                        </div>
+                    {/* Bulk actions */}
+                    <div className="flex gap-2 border-b p-2">
+                      <Button
+                        type="button"
+                        variant="outline"
+                        size="sm"
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          selectAllProvinces();
+                          setIsOpen(false);
+                        }}
+                        className="h-7 cursor-pointer border-blue-600/20 bg-blue-600/10 text-xs text-blue-600 hover:bg-blue-600/20 hover:text-blue-600"
+                      >
+                        Pilih Semua ({provinces.length})
+                      </Button>
+                      <Button
+                        type="button"
+                        variant="outline"
+                        size="sm"
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          deselectAllProvinces();
+                          setIsOpen(false);
+                        }}
+                        className="h-7 cursor-pointer border-transparent text-xs shadow-none hover:border-red-500/20 hover:bg-red-500/10 hover:text-red-500"
+                      >
+                        Hapus Semua
+                      </Button>
+                    </div>
 
-                        {provinces.map((province) => {
-                          const isSelected = selectedProvinces.includes(
-                            province.name,
-                          );
-                          return (
-                            <CommandItem
-                              value={province.name}
-                              key={province.id}
-                              onSelect={() =>
-                                handleProvinceToggle(province.name)
-                              }
-                              className="cursor-pointer"
-                            >
-                              <div className="flex w-full items-center justify-between space-x-2">
-                                <div className="flex items-center space-x-2">
-                                  <Checkbox checked={isSelected} />
-                                  <span>{province.name}</span>
-                                </div>
-                                <span className="text-muted-foreground text-xs">
-                                  {province.id}
-                                </span>
-                              </div>
-                            </CommandItem>
-                          );
-                        })}
-                      </>
-                    )}
-
-                    {isLoadingProvinces && (
-                      <div className="flex items-center justify-center p-4">
-                        <Loader2 className="h-6 w-6 animate-spin" />
-                        <span className="ml-2">Memuat data provinsi...</span>
-                      </div>
-                    )}
+                    {provinces.map((province) => {
+                      const isSelected = selectedProvinces.includes(
+                        province.name,
+                      );
+                      return (
+                        <CommandItem
+                          value={province.name}
+                          key={province.id}
+                          onSelect={() => handleProvinceToggle(province.name)}
+                          className="cursor-pointer"
+                        >
+                          <div className="flex w-full items-center justify-between space-x-2">
+                            <div className="flex items-center space-x-2">
+                              <Checkbox checked={isSelected} />
+                              <span>{province.name}</span>
+                            </div>
+                            <span className="text-muted-foreground text-xs">
+                              {province.id}
+                            </span>
+                          </div>
+                        </CommandItem>
+                      );
+                    })}
                   </CommandGroup>
                 </CommandList>
               </Command>

@@ -24,7 +24,7 @@ import { Badge } from "./ui/badge";
 import { Button } from "./ui/button";
 import { Checkbox } from "./ui/checkbox";
 import { ChevronsUpDown, Globe2Icon, X } from "lucide-react";
-import { provinceData } from "@/lib/constant/data-generator-constant";
+import { PROVINCES_DATA } from "@/lib/constant/data-generator-constant";
 import { Popover, PopoverContent, PopoverTrigger } from "./ui/popover";
 
 interface Props {
@@ -69,7 +69,7 @@ export function ProvinceMultiSelect({ form, isGenerating }: Props) {
   );
 
   const selectAllProvinces = useCallback(() => {
-    const allProvinceNames = provinceData.map((p) => p.name);
+    const allProvinceNames = PROVINCES_DATA.map((p) => p.name);
     form.setValue("province", allProvinceNames, { shouldValidate: true });
   }, [form]);
 
@@ -182,14 +182,14 @@ export function ProvinceMultiSelect({ form, isGenerating }: Props) {
                       </Button>
                     </div>
 
-                    {provinceData.map((province) => {
+                    {PROVINCES_DATA.map((province) => {
                       const isSelected = selectedProvinces.includes(
                         province.name,
                       );
                       return (
                         <CommandItem
                           value={province.name}
-                          key={province.name}
+                          key={province.id}
                           onSelect={() => handleProvinceToggle(province.name)}
                           className="cursor-pointer"
                         >

@@ -12,39 +12,7 @@ import {
   generateRandomRegionalDataForCards,
   testBackendConnection,
   type BackendRegionalData,
-  type Province,
 } from "./backend-regional-api";
-
-/**
- * Get provinces from backend API
- */
-export async function getProvincesFromBackend(): Promise<Province[]> {
-  try {
-    console.log("🌍 Getting provinces from backend API...");
-
-    const response = await fetch(
-      `${import.meta.env.VITE_BACKEND_API_URL}/provinces`,
-    );
-
-    if (!response.ok) {
-      throw new Error(`HTTP error! status: ${response.status}`);
-    }
-
-    const result = await response.json();
-
-    if (!result.success || !result.data) {
-      throw new Error("Invalid response format");
-    }
-
-    console.log(
-      `✅ Retrieved ${result.data.length} provinces from backend API`,
-    );
-    return result.data;
-  } catch (error) {
-    console.error("Error fetching provinces from backend:", error);
-    throw new Error("Failed to fetch provinces from backend API");
-  }
-}
 
 /**
  * Test if backend API is available
@@ -154,8 +122,6 @@ export async function generateBackendKtpData(
   settings: GeneratorSettingsType,
 ): Promise<KTPGeneratedData[]> {
   try {
-    console.log("🎯 Generating KTP data using backend API...");
-
     // Get regional data from backend
     const regionalData = await generateRandomRegionalDataForCards(
       settings.province, // Use 'province' field from GeneratorSettingsType
@@ -214,7 +180,6 @@ export async function generateBackendKtpData(
       ktpData.push(ktp);
     }
 
-    console.log(`✅ Generated ${ktpData.length} KTP records using backend API`);
     return ktpData;
   } catch (error) {
     console.error("Error generating KTP data from backend:", error);
@@ -229,8 +194,6 @@ export async function generateBackendKtaData(
   settings: GeneratorSettingsType,
 ): Promise<KTAGeneratedData[]> {
   try {
-    console.log("🎯 Generating KTA data using backend API...");
-
     // Get regional data from backend
     const regionalData = await generateRandomRegionalDataForCards(
       settings.province, // Use 'province' field from GeneratorSettingsType
@@ -312,7 +275,6 @@ export async function generateBackendKtaData(
       ktaData.push(kta);
     }
 
-    console.log(`✅ Generated ${ktaData.length} KTA records using backend API`);
     return ktaData;
   } catch (error) {
     console.error("Error generating KTA data from backend:", error);

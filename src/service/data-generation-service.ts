@@ -6,9 +6,9 @@ import type { KTAGeneratedData } from "@/lib/types/kta-types";
 import {
   generateBackendKtpData,
   generateBackendKtaData,
-  getProvincesFromBackend,
   testBackendConnection,
 } from "./backend-data-generator";
+import { PROVINCES_DATA } from "@/lib/constant/data-generator-constant";
 
 /**
  * Generate KTP data using backend API only
@@ -17,8 +17,6 @@ export async function generateKtpData(
   settings: GeneratorSettingsType,
 ): Promise<KTPGeneratedData[]> {
   try {
-    console.log("🎯 Generating KTP data using backend API...");
-
     // Test backend connection first
     const isBackendAvailable = await testBackendConnection();
     if (!isBackendAvailable) {
@@ -41,8 +39,6 @@ export async function generateKtaData(
   settings: GeneratorSettingsType,
 ): Promise<KTAGeneratedData[]> {
   try {
-    console.log("🎯 Generating KTA data using backend API...");
-
     // Test backend connection first
     const isBackendAvailable = await testBackendConnection();
     if (!isBackendAvailable) {
@@ -59,17 +55,14 @@ export async function generateKtaData(
 }
 
 /**
- * Get provinces for selection using backend API with caching
+ * Get provinces for selection using static data
  */
 export async function getProvinces(): Promise<{ id: string; name: string }[]> {
-  try {
-    console.log("🌐 Fetching provinces from backend API...");
-    return await getProvincesFromBackend();
-  } catch (error) {
-    console.error("Error fetching provinces:", error);
-    // Return empty array if API fails
-    return [];
-  }
+  // Return static province data
+  return PROVINCES_DATA.map((province) => ({
+    id: province.id,
+    name: province.name,
+  }));
 }
 
 /**

@@ -22,38 +22,24 @@ function generateRandomNIK(): string {
  * Parse CSV content and convert to array of objects
  */
 function parseCSV(csvContent: string): Record<string, string>[] {
-  console.log("🔍 CSV Parser - Raw content length:", csvContent.length);
-  console.log("🔍 CSV Parser - First 200 chars:", csvContent.substring(0, 200));
-
   const lines = csvContent.trim().split("\n");
-  console.log("🔍 CSV Parser - Total lines:", lines.length);
 
   if (lines.length < 2) {
     throw new Error("File CSV harus memiliki minimal header dan 1 baris data");
   }
 
   const headers = lines[0].split(",").map((h) => h.trim().replace(/"/g, ""));
-  console.log("🔍 CSV Parser - Headers:", headers);
-  console.log("🔍 CSV Parser - Headers count:", headers.length);
-
   const data: Record<string, string>[] = [];
 
   for (let i = 1; i < lines.length; i++) {
-    console.log(`🔍 CSV Parser - Processing line ${i}:`, lines[i]);
-
     // Better CSV parsing with proper quote handling
     const values = parseCSVLine(lines[i]);
-    console.log(`🔍 CSV Parser - Parsed values line ${i}:`, values);
-    console.log(
-      `🔍 CSV Parser - Values count: ${values.length}, Headers count: ${headers.length}`,
-    );
 
     if (values.length === headers.length) {
       const row: Record<string, string> = {};
       headers.forEach((header, index) => {
         row[header] = values[index] || "";
       });
-      console.log(`🔍 CSV Parser - Row ${i} created:`, row);
       data.push(row);
     } else {
       console.warn(
@@ -62,7 +48,6 @@ function parseCSV(csvContent: string): Record<string, string>[] {
     }
   }
 
-  console.log("🔍 CSV Parser - Final data count:", data.length);
   return data;
 }
 
@@ -125,7 +110,6 @@ function validateKTPData(
   errors: string[];
   warnings: string[];
 } {
-  console.log(`🔍 KTP Validator - Row ${index + 1}:`, row);
   const errors: string[] = [];
   const warnings: string[] = [];
 
@@ -147,14 +131,8 @@ function validateKTPData(
     "bloodType",
   ];
 
-  console.log(
-    `🔍 KTP Validator - Checking required fields for row ${index + 1}`,
-  );
   for (const field of requiredFields) {
     const value = row[field]?.trim();
-    console.log(
-      `🔍 KTP Validator - Field '${field}': '${value}' (${value ? "OK" : "EMPTY"})`,
-    );
     if (!value) {
       errors.push(`Baris ${index + 1}: Field ${field} tidak boleh kosong`);
     }
@@ -330,17 +308,9 @@ export async function importCSV(
   file: File,
   cardType: CardType,
 ): Promise<CSVImportResult<KTPGeneratedData | KTAGeneratedData>> {
-  console.log("🚀 CSV Import started");
-  console.log("📄 File name:", file.name);
-  console.log("📦 File size:", file.size, "bytes");
-  console.log("🎯 Card type:", cardType);
-
   try {
     const csvContent = await file.text();
-    console.log("📝 CSV Content loaded, length:", csvContent.length);
-
     const rows = parseCSV(csvContent);
-    console.log("📊 Parsed rows count:", rows.length);
 
     const data: (KTPGeneratedData | KTAGeneratedData)[] = [];
     const errors: string[] = [];
@@ -348,57 +318,31 @@ export async function importCSV(
 
     for (let i = 0; i < rows.length; i++) {
       const row = rows[i];
-      console.log(`🔄 Processing row ${i + 1}/${rows.length}`);
 
       if (cardType === "KTP") {
         const validation = validateKTPData(row, i);
-        console.log(`🔍 KTP validation result for row ${i + 1}:`, {
-          isValid: validation.isValid,
-          hasData: !!validation.data,
-          errorCount: validation.errors.length,
-          warningCount: validation.warnings.length,
-        });
 
         if (validation.isValid && validation.data) {
           data.push(validation.data);
-          console.log(`✅ Row ${i + 1} added to data`);
         } else {
           errors.push(...validation.errors);
-          console.log(`❌ Row ${i + 1} failed validation:`, validation.errors);
         }
 
         // Always collect warnings
         warnings.push(...validation.warnings);
       } else {
         const validation = validateKTAData(row, i);
-        console.log(`🔍 KTA validation result for row ${i + 1}:`, {
-          isValid: validation.isValid,
-          hasData: !!validation.data,
-          errorCount: validation.errors.length,
-          warningCount: validation.warnings.length,
-        });
 
         if (validation.isValid && validation.data) {
           data.push(validation.data);
-          console.log(`✅ Row ${i + 1} added to data`);
         } else {
           errors.push(...validation.errors);
-          console.log(`❌ Row ${i + 1} failed validation:`, validation.errors);
         }
 
         // Always collect warnings
         warnings.push(...validation.warnings);
       }
     }
-
-    console.log("🏁 Import completed");
-    console.log("📈 Final statistics:");
-    console.log("  - Total rows processed:", rows.length);
-    console.log("  - Valid data count:", data.length);
-    console.log("  - Total errors:", errors.length);
-    console.log("  - Errors:", errors);
-    console.log("  - Total warnings:", warnings.length);
-    console.log("  - Warnings:", warnings);
 
     return {
       success: errors.length === 0,
