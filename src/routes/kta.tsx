@@ -34,7 +34,6 @@ function KTA() {
     setIsGenerating(true);
     try {
       const data = await generateKtaData(payload);
-      await new Promise((resolve) => setTimeout(resolve, 500));
       dispatch({ type: "SET_KTA_DATA", payload: data });
       setIsGenerating(false);
     } catch (error) {

@@ -26,8 +26,6 @@ export async function exportToExcel(
 ): Promise<void> {
   if (data.length === 0) return;
 
-  await new Promise((resolve) => setTimeout(resolve, 500));
-
   const isKTA = isKtaData(data[0]);
 
   const KTPHeader = [

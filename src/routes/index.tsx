@@ -36,7 +36,6 @@ function Index() {
     setIsGenerating(true);
     try {
       const data = await generateKtpData(payload);
-      await new Promise((resolve) => setTimeout(resolve, 500));
       dispatch({ type: "SET_KTP_DATA", payload: data });
       setIsGenerating(false);
     } catch (error) {
