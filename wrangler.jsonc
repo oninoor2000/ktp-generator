@@ -15,4 +15,7 @@
       // "migrations_dir": "drizzle/migrations",
     },
   ],
+  "vars": {
+    "SECURITY_ADMIN_ENABLED": "false"
+  },
 }
