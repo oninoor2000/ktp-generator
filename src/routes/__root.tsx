@@ -8,10 +8,15 @@ import {
 import { TanStackRouterDevtools } from '@tanstack/react-router-devtools'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import * as React from 'react'
+import { ThemeProvider } from 'next-themes'
 import { DefaultCatchBoundary } from '~/components/DefaultCatchBoundary'
 import { NotFound } from '~/components/NotFound'
 import appCss from '~/styles/app.css?url'
 import { seo } from '~/utils/seo'
+
+// No-FOUC: runs synchronously before paint. Must mirror next-themes' storage
+// key ('theme') so the provider reads the same value post-hydration.
+const themeScript = `(function(){try{var t=localStorage.getItem('theme');var s=t==='light'||t==='dark'||t==='system'?t:'system';var d=s==='system'?(window.matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light'):s;var r=document.documentElement;r.classList.toggle('dark',d==='dark');r.style.colorScheme=d;}catch(e){}})();`
 
 export const Route = createRootRoute({
   head: () => ({
@@ -51,6 +56,11 @@ export const Route = createRootRoute({
       { rel: 'manifest', href: '/site.webmanifest', color: '#fffff' },
       { rel: 'icon', href: '/favicon.ico' },
     ],
+    scripts: [
+      // Blocking init: must run before any paint so dark/light swap is
+      // applied to the documentElement before the first frame.
+      { children: themeScript },
+    ],
   }),
   errorComponent: DefaultCatchBoundary,
   notFoundComponent: () => <NotFound />,
@@ -72,16 +82,23 @@ function RootComponent() {
   )
 
   return (
-    <QueryClientProvider client={queryClient}>
-      <Outlet />
-      <TanStackRouterDevtools position="bottom-right" />
-    </QueryClientProvider>
+    <ThemeProvider
+      attribute="class"
+      defaultTheme="system"
+      enableSystem
+      disableTransitionOnChange
+    >
+      <QueryClientProvider client={queryClient}>
+        <Outlet />
+        <TanStackRouterDevtools position="bottom-right" />
+      </QueryClientProvider>
+    </ThemeProvider>
   )
 }
 
 function RootDocument({ children }: { children: React.ReactNode }) {
   return (
-    <html>
+    <html lang="en" suppressHydrationWarning>
       <head>
         <HeadContent />
       </head>
