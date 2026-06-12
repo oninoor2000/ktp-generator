@@ -1,6 +1,6 @@
-# KTP Generator
+# KTP Lab
 
-TanStack Start app for generating Indonesian KTP test data from seeded regional reference data.
+TanStack Start app for generating Indonesian KTP and KTA test data from seeded regional reference data.
 
 Region data is generated from [`cahyadsn/wilayah`](https://github.com/cahyadsn/wilayah) into `seeds/wilayah-seed.sql`, then seeded into Cloudflare D1.
 

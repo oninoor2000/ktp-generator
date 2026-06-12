@@ -24,14 +24,14 @@ import type { CsvUploadResult } from "./csv-upload";
 
 const COPY = {
   KTP: {
-    title: "KTP Generator",
+    title: "KTP",
     subtitle: "Buat data KTP dummy untuk pengujian dan pengembangan.",
     formTitle: "Generator Data KTP",
     formDescription:
       "Atur batch data lalu hasilkan identitas Indonesia palsu untuk kebutuhan pengujian.",
   },
   KTA: {
-    title: "KTA Generator",
+    title: "KTA",
     subtitle: "Buat data KTA anak dummy untuk pengujian dan pengembangan.",
     formTitle: "Generator Data KTA",
     formDescription:
@@ -95,18 +95,24 @@ export function GeneratorPage({ cardType }: { cardType: CardType }) {
   return (
     <main className="min-h-screen bg-background text-foreground">
       <header className="border-b border-border">
-        <div className="mx-auto flex w-full max-w-7xl flex-wrap items-start justify-between gap-4 px-4 py-5 sm:px-6 lg:px-8">
-          <div className="flex min-w-0 flex-col gap-2">
-            <p className="text-xs font-semibold uppercase text-muted-foreground">
-              {copy.title}
+        <div className="mx-auto flex w-full max-w-7xl flex-wrap items-center justify-between gap-4 px-4 py-4 sm:px-6 lg:px-8">
+          <div className="flex min-w-0 flex-col gap-1">
+            <h1 className="text-xl font-semibold uppercase">KTP Lab</h1>
+            <p className="max-w-3xl text-sm text-muted-foreground">
+              {copy.subtitle} Data bersifat palsu dan hanya untuk testing,
+              development, dan mockup.
             </p>
-            <h1 className="text-2xl font-semibold uppercase">{copy.title}</h1>
-            <p className="max-w-2xl text-sm text-muted-foreground">
-              {copy.subtitle}
-            </p>
-            <p className="text-sm text-muted-foreground">
-              Data yang dihasilkan bersifat palsu dan hanya boleh digunakan untuk
-              pengujian, pengembangan, dan mockup.
+            <p className="text-xs text-muted-foreground">
+              Referensi wilayah dari{" "}
+              <a
+                href="https://github.com/cahyadsn/wilayah"
+                target="_blank"
+                rel="noreferrer"
+                className="font-medium text-foreground underline underline-offset-4"
+              >
+                cahyadsn/wilayah
+              </a>
+              .
             </p>
           </div>
           <div className="flex flex-wrap items-center gap-2">

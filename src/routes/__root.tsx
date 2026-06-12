@@ -29,9 +29,11 @@ export const Route = createRootRoute({
         content: 'width=device-width, initial-scale=1',
       },
       ...seo({
-        title: 'KTP Generator',
+        title: 'KTP Lab - Generator Data KTP dan KTA Dummy',
         description:
-          'Generate Indonesian KTP test data from seeded regional reference data.',
+          'Buat data KTP dan KTA dummy Indonesia untuk testing, development, dan mockup dengan referensi wilayah dari cahyadsn/wilayah.',
+        keywords:
+          'generator ktp dummy, data ktp testing, generator kta anak, nik dummy, wilayah indonesia',
       }),
     ],
     links: [
@@ -53,7 +55,7 @@ export const Route = createRootRoute({
         sizes: '16x16',
         href: '/favicon-16x16.png',
       },
-      { rel: 'manifest', href: '/site.webmanifest', color: '#fffff' },
+      { rel: 'manifest', href: '/site.webmanifest', color: '#ffffff' },
       { rel: 'icon', href: '/favicon.ico' },
     ],
     scripts: [
@@ -98,7 +100,7 @@ function RootComponent() {
 
 function RootDocument({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en" suppressHydrationWarning>
+    <html lang="id" suppressHydrationWarning>
       <head>
         <HeadContent />
       </head>

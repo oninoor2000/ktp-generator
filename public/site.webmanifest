@@ -1,6 +1,6 @@
 {
-  "name": "",
-  "short_name": "",
+  "name": "KTP Lab",
+  "short_name": "KTP Lab",
   "icons": [
     {
       "src": "/android-chrome-192x192.png",
@@ -15,5 +15,7 @@
   ],
   "theme_color": "#ffffff",
   "background_color": "#ffffff",
-  "display": "standalone"
+  "display": "standalone",
+  "lang": "id",
+  "categories": ["developer", "utilities"]
 }
