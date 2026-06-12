@@ -23,6 +23,7 @@ import {
   CardTitle,
 } from "~/components/ui/card";
 import { Progress } from "~/components/ui/progress";
+import { Spinner } from "~/components/ui/spinner";
 import {
   Table,
   TableBody,
@@ -287,54 +288,70 @@ export function DataPreview({ cardType, rows, onClear, onImport }: DataPreviewPr
           </div>
 
           {/* Export / Clear actions */}
-          <div className="flex flex-wrap gap-2" role="group" aria-label="Aksi ekspor">
-            <Button
-              variant="outline"
-              size="sm"
-              onClick={handleCsvExport}
-              disabled={!hasData}
-              aria-label="Ekspor CSV"
-            >
-              <FileSpreadsheetIcon data-icon="inline-start" />
-              CSV
-            </Button>
+          <div className="flex flex-col items-end gap-2">
+            <div className="flex flex-wrap gap-2" role="group" aria-label="Aksi ekspor">
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={handleCsvExport}
+                disabled={!hasData}
+                aria-label="Ekspor CSV"
+              >
+                <FileSpreadsheetIcon data-icon="inline-start" />
+                CSV
+              </Button>
 
-            <Button
-              variant="outline"
-              size="sm"
-              onClick={() => void handlePdfExport()}
-              disabled={!hasData || Boolean(pdfProgress)}
-              aria-label="Ekspor PDF"
-              aria-busy={Boolean(pdfProgress)}
-            >
-              <FileTextIcon data-icon="inline-start" />
-              PDF
-            </Button>
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={() => void handlePdfExport()}
+                disabled={!hasData || Boolean(pdfProgress)}
+                aria-label={pdfProgress ? `Mengekspor PDF ${pdfPercent}%` : "Ekspor PDF"}
+                aria-busy={Boolean(pdfProgress)}
+              >
+                {pdfProgress ? (
+                  <>
+                    <Spinner data-icon="inline-start" />
+                    {pdfPercent}%
+                  </>
+                ) : (
+                  <>
+                    <FileTextIcon data-icon="inline-start" />
+                    PDF
+                  </>
+                )}
+              </Button>
 
-            <Button
-              variant="ghost"
-              size="sm"
-              onClick={handleClear}
-              aria-label="Hapus data"
-            >
-              <Trash2Icon data-icon="inline-start" />
-              Hapus
-            </Button>
+              <Button
+                variant="ghost"
+                size="sm"
+                onClick={handleClear}
+                aria-label="Hapus data"
+              >
+                <Trash2Icon data-icon="inline-start" />
+                Hapus
+              </Button>
+            </div>
+
+            {/* PDF progress bar — sits right below the action row */}
+            {pdfProgress && (
+              <div
+                className="w-full min-w-48"
+                aria-live="polite"
+                aria-atomic="true"
+                aria-label={`Ekspor PDF: ${pdfProgress.done} dari ${pdfProgress.total} halaman`}
+              >
+                <Progress value={pdfPercent} className="h-1" />
+                <p className="mt-1 text-right text-xs text-muted-foreground">
+                  {pdfProgress.done}/{pdfProgress.total} halaman
+                </p>
+              </div>
+            )}
           </div>
         </div>
       </CardHeader>
 
       <CardContent className="flex flex-col gap-6">
-        {/* PDF progress bar */}
-        {pdfProgress && (
-          <div aria-live="polite" aria-label="PDF export progress">
-            <p className="mb-1 text-xs text-muted-foreground">
-              Mengekspor PDF… {pdfProgress.done}/{pdfProgress.total}
-            </p>
-            <Progress value={pdfPercent} className="h-1.5" />
-          </div>
-        )}
-
         {/* Summary metrics */}
         <div className="grid gap-4 sm:grid-cols-4">
           <Metric label="Total Data" value={rows.length} icon={<TablePropertiesIcon className="size-4" />} />
