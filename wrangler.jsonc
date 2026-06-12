@@ -1,0 +1,18 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "ktp-generator",
+  "compatibility_date": "2025-09-02",
+  "compatibility_flags": ["nodejs_compat"],
+  "main": "@tanstack/react-start/server-entry",
+  "observability": {
+    "enabled": true,
+  },
+  "d1_databases": [
+    {
+      "binding": "DB",
+      "database_name": "ktp-generator",
+      "database_id": "91abadae-5971-464f-9d78-f975ec609864",
+      // "migrations_dir": "drizzle/migrations",
+    },
+  ],
+}

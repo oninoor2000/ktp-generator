@@ -1,0 +1,85 @@
+# Dependencies and package-manager caches
+node_modules/
+.pnpm-store/
+.npm/
+.yarn/
+.pnp.*
+package-lock.json
+yarn.lock
+
+# Environment and secret-bearing local config
+.env
+.env.*
+.dev.vars
+.dev.vars.*
+.env.sentry-build-plugin
+*.local
+*.local.*
+
+# Keep checked-in templates that contain only placeholders.
+!.env.example
+!.env.*.example
+
+# Cloudflare / Wrangler local state and generated output
+.wrangler/
+.mf/
+.miniflare/
+dist/
+worker-configuration.d.ts
+
+# Local databases and dumps
+*.db
+*.db-*
+*.sqlite
+*.sqlite-*
+*.sqlite3
+*.sqlite3-*
+*.d1
+*.dump
+*.bak
+
+# Credential and key material
+*.key
+*.pem
+*.crt
+*.cer
+*.p12
+*.pfx
+*.jks
+*.keystore
+*.mobileprovision
+*.provisionprofile
+id_rsa*
+id_dsa*
+id_ecdsa*
+id_ed25519*
+*.secret
+*.secrets
+secrets.*
+.secret
+.secrets
+
+# Build artifacts
+.vercel/
+.output/
+.nitro/
+.tanstack/
+.vite/
+/build/
+/api/
+/server/build/
+/public/build/
+
+# Test and coverage output
+/test-results/
+/playwright-report/
+/blob-report/
+/playwright/.cache/
+/coverage/
+.nyc_output/
+
+# OS, editor, and machine-local tool state
+.DS_Store
+Thumbs.db
+.cache/
+.claude/settings.local.json
