@@ -15,6 +15,14 @@ import { KTP_TEMPLATE_PATH, KTA_TEMPLATE_PATH } from "~/features/generator/domai
 import type { CardType } from "~/features/generator/domain/types";
 
 // ---------------------------------------------------------------------------
+// Constants
+// ---------------------------------------------------------------------------
+
+const TEMPLATE_WIDTH = 650;   // fixed page width in points
+const TEMPLATE_HEIGHT = 410;  // fixed page height in points
+const MANUAL_Y_OFFSET = -15;  // vertical alignment correction in points
+
+// ---------------------------------------------------------------------------
 // Types
 // ---------------------------------------------------------------------------
 
@@ -46,28 +54,41 @@ function hexToRgb(hex: string): { r: number; g: number; b: number } {
  * Convert a percentage-based x position (0–100) to an absolute PDF coordinate.
  * The PDF coordinate system has origin at bottom-left.
  *
+ * Always uses TEMPLATE_WIDTH (650) and TEMPLATE_HEIGHT (410) as the reference
+ * frame, regardless of any additional arguments passed. The extra positional
+ * parameters are accepted for backwards-compatibility with existing call sites
+ * but are intentionally ignored.
+ *
  * @param xPercent - 0–100% of page width
  * @param yPercent - 0–100% of page height (measured from top of image)
- * @param pageWidth - page width in points
- * @param pageHeight - page height in points
+ * @param _ignoredWidth - ignored; kept for call-site compatibility
+ * @param _ignoredHeight - ignored; kept for call-site compatibility
  * @param align - text alignment
  * @param textWidth - pre-measured text width in points (for center/right align)
  */
 export function percentToCoords(
   xPercent: number,
   yPercent: number,
-  pageWidth: number,
-  pageHeight: number,
+  _ignoredWidthOrAlign?: number | "left" | "center" | "right",
+  _ignoredHeightOrTextWidth?: number,
   align: "left" | "center" | "right" = "left",
   textWidth = 0,
 ): { x: number; y: number } {
-  const absX = (xPercent / 100) * pageWidth;
-  // yPercent is measured from top; pdf-lib measures from bottom
-  const absY = pageHeight - (yPercent / 100) * pageHeight;
+  const resolvedAlign =
+    typeof _ignoredWidthOrAlign === "string" ? _ignoredWidthOrAlign : align;
+  const resolvedTextWidth =
+    typeof _ignoredWidthOrAlign === "string"
+      ? (_ignoredHeightOrTextWidth ?? 0)
+      : textWidth;
+
+  const absX = (xPercent / 100) * TEMPLATE_WIDTH;
+  // yPercent is measured from top; pdf-lib measures from bottom.
+  // MANUAL_Y_OFFSET corrects for a known vertical alignment shift.
+  const absY = TEMPLATE_HEIGHT - (yPercent / 100) * TEMPLATE_HEIGHT + MANUAL_Y_OFFSET;
 
   let x = absX;
-  if (align === "center") x = absX - textWidth / 2;
-  else if (align === "right") x = absX - textWidth;
+  if (resolvedAlign === "center") x = absX - resolvedTextWidth / 2;
+  else if (resolvedAlign === "right") x = absX - resolvedTextWidth;
 
   return { x, y: absY };
 }
@@ -92,11 +113,10 @@ async function drawCardPage(
 ): Promise<void> {
   // Embed PNG template
   const templateImage = await pdfDoc.embedPng(templateImageBytes);
-  const { width: imgWidth, height: imgHeight } = templateImage.scale(1);
 
-  // Add a page sized to the template image
-  const page = pdfDoc.addPage([imgWidth, imgHeight]);
-  page.drawImage(templateImage, { x: 0, y: 0, width: imgWidth, height: imgHeight });
+  // Use fixed dimensions — do NOT use templateImage.scale(1)
+  const page = pdfDoc.addPage([TEMPLATE_WIDTH, TEMPLATE_HEIGHT]);
+  page.drawImage(templateImage, { x: 0, y: 0, width: TEMPLATE_WIDTH, height: TEMPLATE_HEIGHT });
 
   // Embed fonts
   const boldFont = await pdfDoc.embedFont(StandardFonts.HelveticaBold);
@@ -114,8 +134,8 @@ async function drawCardPage(
     const { x, y } = percentToCoords(
       position.x,
       position.y,
-      imgWidth,
-      imgHeight,
+      TEMPLATE_WIDTH,
+      TEMPLATE_HEIGHT,
       position.align,
       textWidth,
     );
@@ -145,7 +165,7 @@ async function exportKtpPdf(
   for (let i = 0; i < rows.length; i++) {
     const row = rows[i]!;
     const fields: Record<string, { config: FieldConfig; value: string }> = {
-      province: { config: config.province, value: row.province },
+      province: { config: config.province, value: `PROVINSI ${row.province}` },
       city: { config: config.city, value: row.city },
       nik: { config: config.nik, value: row.nik },
       name: { config: config.name, value: row.name },
@@ -159,8 +179,8 @@ async function exportKtpPdf(
       maritalStatus: { config: config.maritalStatus, value: row.maritalStatus },
       occupation: { config: config.occupation, value: row.occupation },
       bloodType: { config: config.bloodType, value: row.bloodType },
-      nationality: { config: config.nationality, value: row.nationality },
-      validUntil: { config: config.validUntil, value: row.validityPeriod },
+      nationality: { config: config.nationality, value: "WNI" },
+      validUntil: { config: config.validUntil, value: "SEUMUR HIDUP" },
     };
 
     await drawCardPage(pdfDoc, templateBytes, fields);
@@ -185,7 +205,7 @@ async function exportKtaPdf(
   for (let i = 0; i < rows.length; i++) {
     const row = rows[i]!;
     const fields: Record<string, { config: FieldConfig; value: string }> = {
-      province: { config: config.province, value: row.province },
+      province: { config: config.province, value: `PROVINSI ${row.province}` },
       city: { config: config.city, value: row.city },
       nik: { config: config.nik, value: row.nik },
       name: { config: config.name, value: row.name },
@@ -195,7 +215,7 @@ async function exportKtaPdf(
       headFamilyName: { config: config.headFamilyName, value: row.headFamilyName },
       birthCertificateNumber: { config: config.birthCertificateNumber, value: row.birthCertificateNumber },
       religion: { config: config.religion, value: row.religion },
-      nationality: { config: config.nationality, value: row.nationality },
+      nationality: { config: config.nationality, value: "WNI" },
       address: { config: config.address, value: row.address },
       rtRw: { config: config.rtRw, value: row.rtRw },
       village: { config: config.village, value: row.village },
