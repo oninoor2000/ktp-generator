@@ -42,6 +42,16 @@ export const generatorSettingsSchema = z
         message: "KTA maximum age is 16",
       });
     }
+    if (value.clientStartedAt !== undefined) {
+      const ageMs = Date.now() - value.clientStartedAt;
+      if (ageMs > 60 * 60 * 1000) {
+        ctx.addIssue({
+          code: "custom",
+          path: ["clientStartedAt"],
+          message: "Client session started too long ago",
+        });
+      }
+    }
   });
 
 export type GeneratorSettingsInput = z.infer<typeof generatorSettingsSchema>;

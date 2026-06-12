@@ -15,7 +15,6 @@ import {
 import type {
   GeneratorSettings,
   KTAGeneratedData,
-  KTPGeneratedData,
   RegionalData,
 } from "./types";
 
@@ -149,7 +148,7 @@ test("generateKtaRows sets validity to 17th birthday and adds family fields", ()
   const ctx = makeRandomContext(deterministicRandomSequence([0.5, 0.5, 0.5, 0.5, 0.5]));
   const [row] = generateKtaRows(settings, [REGION], ctx) as KTAGeneratedData[];
   // Birth date in DD-MM-YYYY plus 17 years.
-  const [dd, mm, yyyy] = row.birthDate.split("-");
+  const [, , yyyy] = row.birthDate.split("-");
   const expectedYear = String(Number(yyyy) + 17);
   assert.ok(row.validityPeriod.endsWith(expectedYear), `validity=${row.validityPeriod}`);
   assert.equal(row.familyCertificateNumber.length, 16);

@@ -117,7 +117,6 @@ export function randomBirthDate(
 }
 
 export function buildAddress(
-  city: string,
   random: RandomProvider = defaultRandom,
 ): string {
   const street = faker.location.street();
@@ -129,7 +128,7 @@ export function buildKtpRow(
   region: RegionalData,
   birthDate: Date,
   gender: "male" | "female",
-  settings: GeneratorSettings,
+  _settings: GeneratorSettings,
   random: RandomProvider = defaultRandom,
   fakerImpl: typeof faker = faker,
 ): KTPGeneratedData {
@@ -158,7 +157,7 @@ export function buildKtpRow(
     birthDate: formatDateDDMMYYYY(birthDate),
     birthDatePlace: formatBirthDatePlace(city, birthDate),
     gender: generatedGenderLabel(gender),
-    address: buildAddress(city, random),
+    address: buildAddress(random),
     rt,
     rw,
     rtRw: joinRtRw(rt, rw),

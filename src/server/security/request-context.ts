@@ -124,12 +124,10 @@ export async function buildSecurityRequestContext(
   );
   const rawVisitor = cookies[VISITOR_COOKIE_NAME];
   let visitorId: string;
-  let cookieValid = false;
   if (rawVisitor) {
     const verified = await verifyVisitorCookie(secret, rawVisitor);
     if (verified.valid) {
       visitorId = verified.visitorId;
-      cookieValid = true;
     } else {
       const issued = await issueVisitorCookie(secret);
       visitorId = issued.visitorId;
